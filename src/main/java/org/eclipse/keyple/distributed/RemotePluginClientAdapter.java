@@ -47,7 +47,7 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
    * @param asyncNodeClientTimeoutSeconds The client timeout to use for async protocol (in seconds).
    * @since 2.0
    */
-  RemotePluginClientAdapter(
+  RemotePluginClientAdapter( // NOSONAR
       String remotePluginName,
       boolean isPluginObservationEnabled,
       boolean isReaderObservationEnabled,
@@ -124,13 +124,7 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
           "Cannot create the remote reader because the reader observation strategy is not configured.");
     }
     return new RemoteReaderClientAdapter(
-        getName(),
-        localReaderName,
-        localReaderName,
-        null,
-        getNode().getNodeId(),
-        isObservable,
-        getNode());
+        localReaderName, localReaderName, null, getNode().getNodeId(), isObservable, getNode());
   }
 
   /**

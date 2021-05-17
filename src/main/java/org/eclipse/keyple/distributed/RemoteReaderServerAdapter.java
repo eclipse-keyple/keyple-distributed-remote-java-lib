@@ -37,7 +37,6 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * (package-private)<br>
    * Constructor.
    *
-   * @param remotePluginName The name of the associated remote plugin.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -51,7 +50,6 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @since 2.0
    */
   RemoteReaderServerAdapter( // NOSONAR
-      String remotePluginName,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
@@ -62,14 +60,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
       String userInputDataJson,
       String initialCardContentJson,
       String initialCardContentClassName) {
-    super(
-        remotePluginName,
-        remoteReaderName,
-        localReaderName,
-        sessionId,
-        clientNodeId,
-        isObservable,
-        node);
+    super(remoteReaderName, localReaderName, sessionId, clientNodeId, isObservable, node);
     this.serviceId = serviceId;
     this.userInputDataJson = userInputDataJson;
     this.initialCardContentJson = initialCardContentJson;

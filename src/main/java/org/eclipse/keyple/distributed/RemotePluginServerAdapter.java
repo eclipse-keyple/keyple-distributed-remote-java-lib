@@ -234,7 +234,6 @@ final class RemotePluginServerAdapter extends AbstractRemotePluginAdapter
     }
 
     return new RemoteReaderServerAdapter(
-        getName(),
         remoteReaderName,
         message.getLocalReaderName(),
         message.getSessionId(),
@@ -277,7 +276,6 @@ final class RemotePluginServerAdapter extends AbstractRemotePluginAdapter
     }
 
     return new RemoteReaderServerAdapter(
-        getName(),
         remoteReaderName,
         message.getLocalReaderName(),
         message.getSessionId(),

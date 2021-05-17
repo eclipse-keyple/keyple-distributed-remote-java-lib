@@ -47,7 +47,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
    * @param asyncNodeClientTimeoutSeconds The client timeout to use for async protocol (in seconds).
    * @since 2.0
    */
-  RemotePluginClientFactoryAdapter(
+  RemotePluginClientFactoryAdapter( // NOSONAR
       String remotePluginName,
       boolean isPoolPlugin,
       boolean isPluginObservationEnabled,

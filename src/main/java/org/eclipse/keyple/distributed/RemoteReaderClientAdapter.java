@@ -26,7 +26,6 @@ final class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter
    * (package-private)<br>
    * Constructor.
    *
-   * @param remotePluginName The name of the associated remote plugin.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -36,20 +35,12 @@ final class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter
    * @since 2.0
    */
   RemoteReaderClientAdapter(
-      String remotePluginName,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
       String clientNodeId,
       boolean isObservable,
       AbstractNodeAdapter node) {
-    super(
-        remotePluginName,
-        remoteReaderName,
-        localReaderName,
-        sessionId,
-        clientNodeId,
-        isObservable,
-        node);
+    super(remoteReaderName, localReaderName, sessionId, clientNodeId, isObservable, node);
   }
 }
