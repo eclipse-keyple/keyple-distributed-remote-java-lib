@@ -96,7 +96,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
           new RemotePluginClientAdapter(getRemotePluginName(), isReaderObservationEnabled);
     }
 
-    // Bind de node.
+    // Bind the node.
     if (syncEndpointClientSpi != null) {
       String pluginObservationStrategy =
           syncPluginObservationStrategy != null
