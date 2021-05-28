@@ -11,7 +11,6 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
-import org.eclipse.keyple.core.common.KeypleSmartCard;
 import org.eclipse.keyple.core.util.Assert;
 import org.eclipse.keyple.core.util.json.JsonUtil;
 import org.slf4j.Logger;
@@ -29,9 +28,9 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   private static final Logger logger = LoggerFactory.getLogger(RemoteReaderServerAdapter.class);
 
   private final String serviceId;
-  private final String userInputDataJson;
   private final String initialCardContentJson;
   private final String initialCardContentClassName;
+  private final String inputDataJson;
 
   /**
    * (package-private)<br>
@@ -41,12 +40,11 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
-   * @param isObservable True if remote reader is observable.
    * @param node The associated node.
    * @param serviceId The service ID.
-   * @param userInputDataJson The optional user input data as a JSON string.
    * @param initialCardContentJson The optional initial card content as a JSON string.
    * @param initialCardContentClassName The class name of the optional initial card content.
+   * @param inputDataJson The optional input data as a JSON string.
    * @since 2.0
    */
   RemoteReaderServerAdapter( // NOSONAR
@@ -54,17 +52,16 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
       String localReaderName,
       String sessionId,
       String clientNodeId,
-      boolean isObservable,
       AbstractNodeAdapter node,
       String serviceId,
-      String userInputDataJson,
       String initialCardContentJson,
-      String initialCardContentClassName) {
-    super(remoteReaderName, localReaderName, sessionId, clientNodeId, isObservable, node);
+      String initialCardContentClassName,
+      String inputDataJson) {
+    super(remoteReaderName, localReaderName, sessionId, clientNodeId, node);
     this.serviceId = serviceId;
-    this.userInputDataJson = userInputDataJson;
     this.initialCardContentJson = initialCardContentJson;
     this.initialCardContentClassName = initialCardContentClassName;
+    this.inputDataJson = inputDataJson;
   }
 
   /**
@@ -83,11 +80,16 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @since 2.0
    */
   @Override
-  public <T> T getUserInputData(Class<T> classOfUserInputData) {
-    Assert.getInstance().notNull(classOfUserInputData, "classOfUserInputData");
-    return userInputDataJson != null
-        ? JsonUtil.getParser().fromJson(userInputDataJson, classOfUserInputData)
-        : null;
+  public Object getInitialCardContent() {
+    if (initialCardContentJson != null) {
+      try {
+        Class<?> classOfInitialCardContent = Class.forName(initialCardContentClassName);
+        return JsonUtil.getParser().fromJson(initialCardContentJson, classOfInitialCardContent);
+      } catch (ClassNotFoundException e) {
+        logger.error("Class not found for name : {}", initialCardContentClassName, e);
+      }
+    }
+    return null;
   }
 
   /**
@@ -96,16 +98,10 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @since 2.0
    */
   @Override
-  public KeypleSmartCard getInitialCardContent() {
-    if (initialCardContentJson != null) {
-      try {
-        Class<?> classOfInitialCardContent = Class.forName(initialCardContentClassName);
-        return (KeypleSmartCard)
-            JsonUtil.getParser().fromJson(initialCardContentJson, classOfInitialCardContent);
-      } catch (ClassNotFoundException e) {
-        logger.error("Class not found for name : {}", initialCardContentClassName, e);
-      }
-    }
-    return null;
+  public <T> T getInputData(Class<T> inputDataClass) {
+    Assert.getInstance().notNull(inputDataClass, "inputDataClass");
+    return inputDataJson != null
+        ? JsonUtil.getParser().fromJson(inputDataJson, inputDataClass)
+        : null;
   }
 }

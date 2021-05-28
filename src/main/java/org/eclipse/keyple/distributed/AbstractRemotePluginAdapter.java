@@ -12,8 +12,7 @@
 package org.eclipse.keyple.distributed;
 
 import java.util.UUID;
-import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
-import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
+import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 
 /**
  * (package-private)<br>
@@ -22,44 +21,19 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
  * @since 2.0
  */
 abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
-    implements RemotePluginSpi {
+    implements AbstractRemotePluginSpi {
 
   private final String remotePluginName;
-  private final boolean isObservable;
-  private RemotePluginApi remotePluginApi;
 
   /**
    * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @param isObservable True if the remote plugin is observable.
    * @since 2.0
    */
-  AbstractRemotePluginAdapter(String remotePluginName, boolean isObservable) {
+  AbstractRemotePluginAdapter(String remotePluginName) {
     this.remotePluginName = remotePluginName;
-    this.isObservable = isObservable;
-  }
-
-  /**
-   * (package-private)<br>
-   * Gets the bound {@link RemotePluginApi}.
-   *
-   * @return Null if the plugin is not registered to the Keyple main service.
-   * @since 2.0
-   */
-  final RemotePluginApi getRemotePluginApi() {
-    return remotePluginApi;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final void connect(RemotePluginApi remotePluginApi) {
-    this.remotePluginApi = remotePluginApi;
   }
 
   /**
@@ -83,8 +57,8 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
     // Build the message.
     MessageDto message =
         new MessageDto()
-            .setSessionId(UUID.randomUUID().toString())
             .setAction(MessageDto.Action.CMD.name())
+            .setSessionId(UUID.randomUUID().toString())
             .setBody(jsonData);
 
     // Send the message as a request.
@@ -95,15 +69,5 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
 
     // Return the body content.
     return response.getBody();
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final boolean isObservable() {
-    return isObservable;
   }
 }

@@ -13,12 +13,10 @@ package org.eclipse.keyple.distributed;
 
 import static org.eclipse.keyple.distributed.MessageDto.*;
 
-import org.eclipse.keyple.core.distributed.remote.ObservableRemotePluginApi;
+import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
+import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemoteReaderSpi;
+import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
-import org.eclipse.keyple.distributed.spi.AsyncEndpointClientSpi;
-import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * (package-private)<br>
@@ -26,73 +24,24 @@ import org.slf4j.LoggerFactory;
  *
  * @since 2.0
  */
-final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
-    implements RemotePluginClient {
-
-  private static final Logger logger = LoggerFactory.getLogger(RemotePluginClientAdapter.class);
+class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
+    implements RemotePluginSpi {
 
   private final boolean isReaderObservationEnabled;
+
+  private RemotePluginApi remotePluginApi;
 
   /**
    * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @param isPluginObservationEnabled Is plugin observation enabled ?
    * @param isReaderObservationEnabled Is reader observation enabled ?
-   * @param syncEndpointClientSpi The sync endpoint client to bind.
-   * @param syncPluginObservationStrategy The plugin observation strategy to use for sync protocol.
-   * @param syncReaderObservationStrategy The reader observation strategy to use for sync protocol.
-   * @param asyncEndpointClientSpi The async endpoint client to bind.
-   * @param asyncNodeClientTimeoutSeconds The client timeout to use for async protocol (in seconds).
    * @since 2.0
    */
-  RemotePluginClientAdapter( // NOSONAR
-      String remotePluginName,
-      boolean isPluginObservationEnabled,
-      boolean isReaderObservationEnabled,
-      SyncEndpointClientSpi syncEndpointClientSpi,
-      ServerPushEventStrategyAdapter syncPluginObservationStrategy,
-      ServerPushEventStrategyAdapter syncReaderObservationStrategy,
-      AsyncEndpointClientSpi asyncEndpointClientSpi,
-      int asyncNodeClientTimeoutSeconds) {
-
-    super(remotePluginName, isPluginObservationEnabled);
+  RemotePluginClientAdapter(String remotePluginName, boolean isReaderObservationEnabled) {
+    super(remotePluginName);
     this.isReaderObservationEnabled = isReaderObservationEnabled;
-
-    if (syncEndpointClientSpi != null) {
-      String pluginObservationStrategy =
-          syncPluginObservationStrategy != null
-              ? syncPluginObservationStrategy.getType().name()
-                  + "_"
-                  + syncPluginObservationStrategy.getDurationMillis()
-                  + "_millis"
-              : null;
-      String readerObservationStrategy =
-          syncReaderObservationStrategy != null
-              ? syncReaderObservationStrategy.getType().name()
-                  + "_"
-                  + syncReaderObservationStrategy.getDurationMillis()
-                  + "_millis"
-              : null;
-      logger.info(
-          "Create a new 'RemotePluginClient' with name='{}', nodeType='SyncNodeClient', isPluginObservationEnabled={}, syncPluginObservationStrategy={}, isReaderObservationEnabled={}, syncReaderObservationStrategy={}.",
-          remotePluginName,
-          isPluginObservationEnabled,
-          pluginObservationStrategy,
-          isReaderObservationEnabled,
-          readerObservationStrategy);
-      bindSyncNodeClient(
-          syncEndpointClientSpi, syncPluginObservationStrategy, syncReaderObservationStrategy);
-    } else {
-      logger.info(
-          "Create a new 'RemotePluginClient' with name='{}', nodeType='AsyncNodeClient', timeoutSeconds={}, isPluginObservationEnabled={}, isReaderObservationEnabled={}.",
-          remotePluginName,
-          asyncNodeClientTimeoutSeconds,
-          isPluginObservationEnabled,
-          isReaderObservationEnabled);
-      bindAsyncNodeClient(asyncEndpointClientSpi, asyncNodeClientTimeoutSeconds);
-    }
   }
 
   /**
@@ -101,15 +50,8 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
    * @since 2.0
    */
   @Override
-  public AsyncNodeClient getAsyncNode() {
-    AbstractNodeAdapter node = getNode();
-    if (node instanceof AsyncNodeClient) {
-      return (AsyncNodeClient) node;
-    }
-    throw new IllegalStateException(
-        String.format(
-            "Remote plugin '%s' is not configured with an asynchronous network protocol.",
-            getName()));
+  public void connect(RemotePluginApi remotePluginApi) {
+    this.remotePluginApi = remotePluginApi;
   }
 
   /**
@@ -118,13 +60,9 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
    * @since 2.0
    */
   @Override
-  public RemoteReaderSpi createRemoteReader(String localReaderName, boolean isObservable) {
-    if (isObservable && !isReaderObservationEnabled) {
-      throw new IllegalStateException(
-          "Cannot create the remote reader because the reader observation strategy is not configured.");
-    }
+  public final RemoteReaderSpi createRemoteReader(String localReaderName) {
     return new RemoteReaderClientAdapter(
-        localReaderName, localReaderName, null, getNode().getNodeId(), isObservable, getNode());
+        localReaderName, localReaderName, null, getNode().getNodeId(), getNode());
   }
 
   /**
@@ -133,36 +71,13 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
    * @since 2.0
    */
   @Override
-  public final void startPluginsObservation() {
-
-    // Start local observation.
-    getNode()
-        .sendMessage(
-            new MessageDto()
-                .setAction(Action.START_PLUGINS_OBSERVATION.name())
-                .setSessionId(generateSessionId()));
-
-    // Start remote observation.
-    getNode().startPluginsObservation();
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final void stopPluginsObservation() {
-
-    // Stop remote observation.
-    getNode().stopPluginsObservation();
-
-    // Stop local observation.
-    getNode()
-        .sendMessage(
-            new MessageDto()
-                .setAction(Action.STOP_PLUGINS_OBSERVATION.name())
-                .setSessionId(generateSessionId()));
+  public final ObservableRemoteReaderSpi createObservableRemoteReader(String localReaderName) {
+    if (!isReaderObservationEnabled) {
+      throw new IllegalStateException(
+          "Cannot create the observable remote reader because the reader observation strategy is not configured.");
+    }
+    return new ObservableRemoteReaderClientAdapter(
+        localReaderName, localReaderName, null, getNode().getNodeId(), getNode());
   }
 
   /**
@@ -172,12 +87,8 @@ final class RemotePluginClientAdapter extends AbstractRemotePluginAdapter
    */
   @Override
   void onMessage(MessageDto message) {
-    if (Action.valueOf(message.getAction()) == Action.PLUGIN_EVENT) {
-      // Plugin event.
-      ((ObservableRemotePluginApi) getRemotePluginApi()).onPluginEvent(message.getBody());
-    } else {
-      // Reader event.
-      getRemotePluginApi().onReaderEvent(message.getBody());
+    if (Action.READER_EVENT.name().equals(message.getAction())) {
+      remotePluginApi.onReaderEvent(message.getBody());
     }
   }
 }

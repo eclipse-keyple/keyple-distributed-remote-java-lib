@@ -12,7 +12,6 @@
 package org.eclipse.keyple.distributed;
 
 import org.eclipse.keyple.core.common.KeypleReaderExtension;
-import org.eclipse.keyple.core.common.KeypleSmartCard;
 
 /**
  * API of the <b>Remote Reader Server</b> provided by the <b>Remote Plugin Server</b>.
@@ -32,23 +31,24 @@ public interface RemoteReaderServer extends KeypleReaderExtension {
   String getServiceId();
 
   /**
-   * Gets the user input data if it is set.
-   *
-   * @param classOfUserInputData The expected user input data type.
-   * @param <T> The type of the expected user input data.
-   * @return Null if there is no user input data.
-   * @throws IllegalArgumentException If the provided class is null.
-   * @since 2.0
-   */
-  <T> T getUserInputData(Class<T> classOfUserInputData);
-
-  /**
    * Gets the initial content of the smart card if it is set.
    *
-   * <p>The returned {@link KeypleSmartCard} can be cast into the expected type.
+   * <p>The returned <b><code>org.calypsonet.terminal.reader.selection.SmartCard</code></b> object
+   * can be cast into the expected type.
    *
    * @return Null if there is no initial card content.
    * @since 2.0
    */
-  KeypleSmartCard getInitialCardContent();
+  Object getInitialCardContent();
+
+  /**
+   * Gets the input data if it is set.
+   *
+   * @param inputDataClass The expected input data type.
+   * @param <T> The type of the expected input data.
+   * @return Null if there is no input data.
+   * @throws IllegalArgumentException If the provided class is null.
+   * @since 2.0
+   */
+  <T> T getInputData(Class<T> inputDataClass);
 }

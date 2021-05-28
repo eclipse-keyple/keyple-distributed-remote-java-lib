@@ -13,29 +13,38 @@ package org.eclipse.keyple.distributed;
 
 /**
  * (package-private)<br>
- * Adapter of {@link RemoteReaderClient}.
+ * Abstract class of all {@link RemotePluginClient} adapters.
  *
  * @since 2.0
  */
-class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements RemoteReaderClient {
+abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAdapter
+    implements RemotePluginClient {
 
   /**
    * (package-private)<br>
    * Constructor.
    *
-   * @param remoteReaderName The name of the remote reader.
-   * @param localReaderName The name of the associated local reader.
-   * @param sessionId The associated session ID.
-   * @param clientNodeId The associated client node ID.
-   * @param node The associated node.
+   * @param remotePluginName The name of the remote plugin.
    * @since 2.0
    */
-  RemoteReaderClientAdapter(
-      String remoteReaderName,
-      String localReaderName,
-      String sessionId,
-      String clientNodeId,
-      AbstractNodeAdapter node) {
-    super(remoteReaderName, localReaderName, sessionId, clientNodeId, node);
+  AbstractRemotePluginClientAdapter(String remotePluginName) {
+    super(remotePluginName);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.0
+   */
+  @Override
+  public final AsyncNodeClient getAsyncNode() {
+    AbstractNodeAdapter node = getNode();
+    if (node instanceof AsyncNodeClient) {
+      return (AsyncNodeClient) node;
+    }
+    throw new IllegalStateException(
+        String.format(
+            "Remote plugin '%s' is not configured with an asynchronous network protocol.",
+            getName()));
   }
 }

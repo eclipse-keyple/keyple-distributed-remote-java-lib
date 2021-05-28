@@ -11,8 +11,10 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
-import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
+import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * (package-private)<br>
@@ -22,6 +24,9 @@ import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
  */
 final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactoryAdapter
     implements RemotePluginServerFactory {
+
+  private static final Logger logger =
+      LoggerFactory.getLogger(RemotePluginServerFactoryAdapter.class);
 
   private final AsyncEndpointServerSpi asyncEndpointServerSpi;
 
@@ -35,7 +40,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
    */
   RemotePluginServerFactoryAdapter(
       String remotePluginName, AsyncEndpointServerSpi asyncEndpointServerSpi) {
-    super(remotePluginName, false);
+    super(remotePluginName);
     this.asyncEndpointServerSpi = asyncEndpointServerSpi;
   }
 
@@ -45,7 +50,25 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
    * @since 2.0
    */
   @Override
-  public RemotePluginSpi getRemotePlugin() {
-    return new RemotePluginServerAdapter(getRemotePluginName(), asyncEndpointServerSpi);
+  public AbstractRemotePluginSpi getRemotePlugin() {
+
+    // Create the remote plugin.
+    ObservableRemotePluginServerAdapter remotePlugin =
+        new ObservableRemotePluginServerAdapter(getRemotePluginName());
+
+    // Bind the node.
+    String nodeType = asyncEndpointServerSpi != null ? "AsyncNodeServer" : "SyncNodeServer";
+    logger.info(
+        "Create a new 'RemotePluginServer' with name='{}', nodeType='{}'.",
+        getRemotePluginName(),
+        nodeType);
+
+    if (asyncEndpointServerSpi == null) {
+      remotePlugin.bindSyncNodeServer();
+    } else {
+      remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi);
+    }
+
+    return remotePlugin;
   }
 }

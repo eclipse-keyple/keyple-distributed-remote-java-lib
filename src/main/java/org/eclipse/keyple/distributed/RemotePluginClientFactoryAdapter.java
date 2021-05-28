@@ -11,9 +11,11 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
-import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
+import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointClientSpi;
 import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * (package-private)<br>
@@ -24,6 +26,10 @@ import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
 final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactoryAdapter
     implements RemotePluginClientFactory {
 
+  private static final Logger logger =
+      LoggerFactory.getLogger(RemotePluginClientFactoryAdapter.class);
+
+  private final boolean isPoolPlugin;
   private final boolean isPluginObservationEnabled;
   private final boolean isReaderObservationEnabled;
   private final SyncEndpointClientSpi syncEndpointClientSpi;
@@ -57,7 +63,8 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
       ServerPushEventStrategyAdapter syncReaderObservationStrategy,
       AsyncEndpointClientSpi asyncEndpointClientSpi,
       int asyncNodeClientTimeoutSeconds) {
-    super(remotePluginName, isPoolPlugin);
+    super(remotePluginName);
+    this.isPoolPlugin = isPoolPlugin;
     this.isPluginObservationEnabled = isPluginObservationEnabled;
     this.isReaderObservationEnabled = isReaderObservationEnabled;
     this.syncEndpointClientSpi = syncEndpointClientSpi;
@@ -73,15 +80,60 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
    * @since 2.0
    */
   @Override
-  public RemotePluginSpi getRemotePlugin() {
-    return new RemotePluginClientAdapter(
-        getRemotePluginName(),
-        isPluginObservationEnabled,
-        isReaderObservationEnabled,
-        syncEndpointClientSpi,
-        syncPluginObservationStrategy,
-        syncReaderObservationStrategy,
-        asyncEndpointClientSpi,
-        asyncNodeClientTimeoutSeconds);
+  public AbstractRemotePluginSpi getRemotePlugin() {
+
+    AbstractRemotePluginClientAdapter remotePlugin;
+
+    // Create the remote plugin.
+    if (isPoolPlugin) {
+      remotePlugin = new RemotePoolPluginClientAdapter(getRemotePluginName());
+    } else if (isPluginObservationEnabled) {
+      remotePlugin =
+          new ObservableRemotePluginClientAdapter(
+              getRemotePluginName(), isReaderObservationEnabled);
+    } else {
+      remotePlugin =
+          new RemotePluginClientAdapter(getRemotePluginName(), isReaderObservationEnabled);
+    }
+
+    // Bind the node.
+    if (syncEndpointClientSpi != null) {
+      String pluginObservationStrategy =
+          syncPluginObservationStrategy != null
+              ? syncPluginObservationStrategy.getType().name()
+                  + "_"
+                  + syncPluginObservationStrategy.getDurationMillis()
+                  + "_millis"
+              : null;
+      String readerObservationStrategy =
+          syncReaderObservationStrategy != null
+              ? syncReaderObservationStrategy.getType().name()
+                  + "_"
+                  + syncReaderObservationStrategy.getDurationMillis()
+                  + "_millis"
+              : null;
+      logger.info(
+          "Create a new 'RemotePluginClient' with name='{}', nodeType='SyncNodeClient', isPluginObservationEnabled={}, syncPluginObservationStrategy={}, isReaderObservationEnabled={}, syncReaderObservationStrategy={}.",
+          getRemotePluginName(),
+          isPluginObservationEnabled,
+          pluginObservationStrategy,
+          isReaderObservationEnabled,
+          readerObservationStrategy);
+
+      remotePlugin.bindSyncNodeClient(
+          syncEndpointClientSpi, syncPluginObservationStrategy, syncReaderObservationStrategy);
+
+    } else {
+      logger.info(
+          "Create a new 'RemotePluginClient' with name='{}', nodeType='AsyncNodeClient', timeoutSeconds={}, isPluginObservationEnabled={}, isReaderObservationEnabled={}.",
+          getRemotePluginName(),
+          asyncNodeClientTimeoutSeconds,
+          isPluginObservationEnabled,
+          isReaderObservationEnabled);
+
+      remotePlugin.bindAsyncNodeClient(asyncEndpointClientSpi, asyncNodeClientTimeoutSeconds);
+    }
+
+    return remotePlugin;
   }
 }
