@@ -216,7 +216,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     if (logger.isDebugEnabled()) {
       logger.debug(
-          "Remote plugin '{}' creates the master remote reader '{}' with serviceId='{}', sessionId='{}', clientNodeId='{}'.",
+          "Remote plugin '{}' creates the remote reader '{}' with serviceId='{}', sessionId='{}', clientNodeId='{}'.",
           getName(),
           remoteReaderName,
           serviceId,
