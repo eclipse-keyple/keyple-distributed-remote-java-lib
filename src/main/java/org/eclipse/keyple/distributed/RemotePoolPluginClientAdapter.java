@@ -11,29 +11,27 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
-import org.eclipse.keyple.core.common.CommonsApiProperties;
-import org.eclipse.keyple.core.distributed.remote.DistributedRemoteApiProperties;
-import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
+import org.eclipse.keyple.core.distributed.remote.spi.RemotePoolPluginSpi;
+import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
 
 /**
  * (package-private)<br>
- * Abstract class of all remote plugin factory adapters.
+ * Adapter of pool {@link RemotePluginClient}.
  *
  * @since 2.0
  */
-abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactorySpi {
-
-  private final String remotePluginName;
+class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
+    implements RemotePoolPluginSpi {
 
   /**
    * (package-private)<br>
    * Constructor.
    *
-   * @param remotePluginName The name of the remote plugin to build.
+   * @param remotePluginName The name of the remote plugin.
    * @since 2.0
    */
-  AbstractRemotePluginFactoryAdapter(String remotePluginName) {
-    this.remotePluginName = remotePluginName;
+  RemotePoolPluginClientAdapter(String remotePluginName) {
+    super(remotePluginName);
   }
 
   /**
@@ -42,8 +40,9 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
    * @since 2.0
    */
   @Override
-  public String getDistributedRemoteApiVersion() {
-    return DistributedRemoteApiProperties.VERSION;
+  public final RemoteReaderSpi createRemoteReader(String localReaderName) {
+    return new RemoteReaderClientAdapter(
+        localReaderName, localReaderName, null, getNode().getNodeId(), getNode());
   }
 
   /**
@@ -52,17 +51,7 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
    * @since 2.0
    */
   @Override
-  public String getCommonsApiVersion() {
-    return CommonsApiProperties.VERSION;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public String getRemotePluginName() {
-    return remotePluginName;
+  void onMessage(MessageDto message) {
+    throw new UnsupportedOperationException("onMessage");
   }
 }

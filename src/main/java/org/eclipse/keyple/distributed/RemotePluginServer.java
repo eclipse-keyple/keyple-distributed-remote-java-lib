@@ -40,12 +40,12 @@ import org.eclipse.keyple.core.common.KeyplePluginExtension;
  *       RemoteReaderServer#getServiceId()}.
  *   <li>Execute the ticketing service identified by the service id.
  *   <li>During the ticketing service execution, you can retrieve from the reader the user input
- *       data using the method {@link RemoteReaderServer#getUserInputData(Class)} and/or the initial
+ *       data using the method {@link RemoteReaderServer#getInputData(Class)} and/or the initial
  *       smart card content transmitted by the client using the method {@link
  *       RemoteReaderServer#getInitialCardContent()}.
  *   <li>To end the remote ticketing service, invoke on the plugin the method {@link
  *       RemotePluginServer#endRemoteService(String, Object)} by providing the associated reader
- *       name and optionally a user output data to transmit to the client.
+ *       name and optionally a output data to transmit to the client.
  * </ol>
  *
  * @since 2.0
@@ -76,12 +76,12 @@ public interface RemotePluginServer extends KeyplePluginExtension {
 
   /**
    * Must be invoked to end the remote ticketing service associated to the provided remote reader
-   * name and returns to the client the provided optional user output data.
+   * name and returns to the client the provided optional output data.
    *
    * @param remoteReaderName The remote reader name.
-   * @param userOutputData The object containing user output data (optional).
+   * @param outputData The object containing output data (optional).
    * @throws IllegalArgumentException If the remote reader name is null, empty or unknown.
    * @since 2.0
    */
-  void endRemoteService(String remoteReaderName, Object userOutputData);
+  void endRemoteService(String remoteReaderName, Object outputData);
 }

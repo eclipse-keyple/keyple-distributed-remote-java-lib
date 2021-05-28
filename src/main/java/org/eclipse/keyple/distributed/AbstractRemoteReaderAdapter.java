@@ -28,7 +28,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   private final String localReaderName;
   private final String sessionId;
   private final String clientNodeId;
-  private final boolean isObservable;
   private final AbstractNodeAdapter node;
 
   /**
@@ -39,7 +38,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
-   * @param isObservable True if the remote reader is observable.
    * @param node The associated node.
    * @since 2.0
    */
@@ -48,13 +46,11 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
       String localReaderName,
       String sessionId,
       String clientNodeId,
-      boolean isObservable,
       AbstractNodeAdapter node) {
     this.remoteReaderName = remoteReaderName;
     this.localReaderName = localReaderName;
     this.sessionId = sessionId;
     this.clientNodeId = clientNodeId;
-    this.isObservable = isObservable;
     this.node = node;
   }
 
@@ -92,6 +88,17 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   }
 
   /**
+   * (package-private)<br>
+   * Gets the associated node.
+   *
+   * @return A not null reference.
+   * @since 2.0
+   */
+  final AbstractNodeAdapter getNode() {
+    return node;
+  }
+
+  /**
    * {@inheritDoc}
    *
    * @since 2.0
@@ -112,11 +119,11 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
     // Build the message.
     MessageDto message =
         new MessageDto()
-            .setSessionId(sessionId != null ? sessionId : UUID.randomUUID().toString())
             .setAction(Action.CMD.name())
             .setRemoteReaderName(remoteReaderName)
             .setLocalReaderName(localReaderName)
             .setClientNodeId(clientNodeId)
+            .setSessionId(sessionId != null ? sessionId : UUID.randomUUID().toString())
             .setBody(jsonData);
 
     // Send the message as a request.
@@ -127,35 +134,5 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
 
     // Return the body content.
     return response.getBody();
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final boolean isObservable() {
-    return isObservable;
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final void startReaderObservation() {
-    node.startReadersObservation();
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * @since 2.0
-   */
-  @Override
-  public final void stopReaderObservation() {
-    node.stopReadersObservation();
   }
 }
