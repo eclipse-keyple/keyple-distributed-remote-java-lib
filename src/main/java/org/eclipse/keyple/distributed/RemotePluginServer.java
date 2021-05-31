@@ -78,6 +78,12 @@ public interface RemotePluginServer extends KeyplePluginExtension {
    * Must be invoked to end the remote ticketing service associated to the provided remote reader
    * name and returns to the client the provided optional output data.
    *
+   * <p>This method uses Class.getClass() to get the type for the specified object, but the
+   * getClass() loses the generic type information because of the Type Erasure feature of Java.
+   *
+   * <p>Note that this method works fine if the any of the object fields are of generic type, just
+   * the object itself should not be of a generic type.
+   *
    * @param remoteReaderName The remote reader name.
    * @param outputData The object containing output data (optional).
    * @throws IllegalArgumentException If the remote reader name is null, empty or unknown.
