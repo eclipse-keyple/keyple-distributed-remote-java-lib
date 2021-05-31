@@ -14,13 +14,15 @@ package org.eclipse.keyple.distributed;
 import org.eclipse.keyple.core.common.KeyplePluginExtension;
 
 /**
- * API of the <b>Remote Plugin Client</b> associated to the <b>Local Service Server</b>.
+ * API of the <b>Remote Plugin Client</b> associated to a <b>Local Service Server</b> to be used in
+ * the <b>Reader Server Side</b> configuration mode.
  *
  * <p>This plugin must be registered as a standard plugin by the application installed on a
  * <b>Client</b> not having local access to the smart card reader and that wishes to control the
  * reader remotely.
  *
- * <p>It behaves like a {@link KeyplePluginExtension}.
+ * <p>It is a {@link KeyplePluginExtension} of a Keyple <b>Plugin</b>, <b>ObservablePlugin</b> or
+ * <b>PoolPlugin</b>.
  *
  * @since 2.0
  */

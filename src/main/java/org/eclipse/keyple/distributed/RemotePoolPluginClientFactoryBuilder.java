@@ -16,7 +16,7 @@ import org.eclipse.keyple.distributed.spi.AsyncEndpointClientSpi;
 import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
 
 /**
- * Builder of {@link RemotePluginClientFactory} for pool plugin.
+ * Builder of {@link RemotePluginClientFactory} for Keyple <b>PoolPlugin</b> type.
  *
  * @since 2.0
  */

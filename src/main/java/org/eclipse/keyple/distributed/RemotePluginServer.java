@@ -14,17 +14,22 @@ package org.eclipse.keyple.distributed;
 import org.eclipse.keyple.core.common.KeyplePluginExtension;
 
 /**
- * API of the <b>Remote Plugin Server</b> associated to the <b>Local Service Client</b>.
+ * API of the <b>Remote Plugin Server</b> associated to a <b>Local Service Client</b> to be used in
+ * the <b>Reader Client Side</b> configuration mode.
  *
  * <p>This plugin must be registered as a standard plugin by the application installed on a
  * <b>Server</b> not having local access to the smart card reader and that wishes to control the
  * reader remotely.
  *
- * <p>It behaves like an observable plugin but adds some specific features .
+ * <p>It is a {@link KeyplePluginExtension} of a Keyple <b>ObservablePlugin</b> which provides some
+ * specific features.
  *
  * <p>Please note that <b>this plugin is observable only to trigger ticketing services</b> on the
  * server side, but does not allow observation on the local plugin (reader
  * connection/disconnection).
+ *
+ * <p>Note also that its provided remote readers <b>are not observable</b>. If it is necessary to
+ * observe the local readers, it is the responsibility of the local application to do so.
  *
  * <p><u>How to use it ?</u><br>
  *
@@ -34,18 +39,16 @@ import org.eclipse.keyple.core.common.KeyplePluginExtension;
  *   <li>Wait to be notified of a plugin event of type "READER_CONNECTED".
  *   <li>Retrieve the name of the first reader contained in the event readers list.
  *   <li>Retrieve the remote reader from the plugin.
- *   <li>If you have activated the observation of the reader events, then you can cast the reader
- *       into an observable reader.
  *   <li>Retrieve the service id from the reader using the method {@link
  *       RemoteReaderServer#getServiceId()}.
  *   <li>Execute the ticketing service identified by the service id.
- *   <li>During the ticketing service execution, you can retrieve from the reader the user input
- *       data using the method {@link RemoteReaderServer#getInputData(Class)} and/or the initial
- *       smart card content transmitted by the client using the method {@link
- *       RemoteReaderServer#getInitialCardContent()}.
+ *   <li>During the ticketing service execution, you can retrieve from the reader the initial smart
+ *       card content transmitted by the client using the method {@link
+ *       RemoteReaderServer#getInitialCardContent()} and/or the additional input data using the
+ *       method {@link RemoteReaderServer#getInputData(Class)}.
  *   <li>To end the remote ticketing service, invoke on the plugin the method {@link
- *       RemotePluginServer#endRemoteService(String, Object)} by providing the associated reader
- *       name and optionally a output data to transmit to the client.
+ *       RemotePluginServer#endRemoteService(String, Object)} by providing the reader name and
+ *       optionally a output data to transmit to the client.
  * </ol>
  *
  * @since 2.0
@@ -75,8 +78,8 @@ public interface RemotePluginServer extends KeyplePluginExtension {
   AsyncNodeServer getAsyncNode();
 
   /**
-   * Must be invoked to end the remote ticketing service associated to the provided remote reader
-   * name and returns to the client the provided optional output data.
+   * Ends the remote ticketing service associated to the provided remote reader name and returns to
+   * the client the provided optional output data.
    *
    * <p>This method uses Class.getClass() to get the type for the specified object, but the
    * getClass() loses the generic type information because of the Type Erasure feature of Java.

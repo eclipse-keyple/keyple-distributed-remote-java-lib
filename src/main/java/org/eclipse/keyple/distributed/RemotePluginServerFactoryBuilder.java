@@ -15,7 +15,7 @@ import org.eclipse.keyple.core.util.Assert;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
 
 /**
- * Builder of {@link RemotePluginServerFactory}.
+ * Builder of {@link RemotePluginServerFactory} for Keyple <b>ObservablePlugin</b> type.
  *
  * @since 2.0
  */

@@ -18,7 +18,8 @@ import org.eclipse.keyple.distributed.spi.AsyncEndpointClientSpi;
 import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
 
 /**
- * Builder of {@link RemotePluginClientFactory}.
+ * Builder of {@link RemotePluginClientFactory} for Keyple <b>Plugin</b> or <b>ObservablePlugin</b>
+ * type.
  *
  * @since 2.0
  */

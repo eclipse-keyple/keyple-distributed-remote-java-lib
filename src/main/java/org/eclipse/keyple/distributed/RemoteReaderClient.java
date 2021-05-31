@@ -14,9 +14,10 @@ package org.eclipse.keyple.distributed;
 import org.eclipse.keyple.core.common.KeypleReaderExtension;
 
 /**
- * API of the <b>Remote Reader Client</b> provided by the <b>Remote Plugin Client</b>.
+ * API of the <b>Remote Reader Client</b> provided by the <b>Remote Plugin Client</b> to be used in
+ * the <b>Reader Server Side</b> configuration mode.
  *
- * <p>This reader is an extension of a Keyple observable reader.
+ * <p>It is a {@link KeypleReaderExtension} of a Keyple <b>Reader</b> or <b>ObservableReader</b>.
  *
  * @since 2.0
  */
