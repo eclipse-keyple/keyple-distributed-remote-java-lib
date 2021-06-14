@@ -1,1 +1,1 @@
-rootProject.name = "keyple-java-distributed-remote"
+rootProject.name = "keyple-distributed-remote-java-lib"
