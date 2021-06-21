@@ -104,7 +104,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Build the message
     JsonObject body = new JsonObject();
-    body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.getParser().toJson(outputData));
+    body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.toJson(outputData));
 
     MessageDto message =
         new MessageDto()
