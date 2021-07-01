@@ -60,6 +60,9 @@ public final class RemotePoolPluginClientFactoryBuilder {
     /**
      * Configures the service with a {@link AsyncNodeClient} node.
      *
+     * <p>The network channel is opened once and must remain open for the entire lifecycle of the
+     * plugin until it is unregistered.
+     *
      * @param endpoint The {@link AsyncEndpointClientSpi} network endpoint to use.
      * @param timeoutSeconds This timeout (in seconds) defines how long the async client waits for a
      *     server order before cancelling the global transaction.

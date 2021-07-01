@@ -11,7 +11,6 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
-import java.util.UUID;
 import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 
 /**
@@ -47,18 +46,22 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
   }
 
   /**
-   * {@inheritDoc}
+   * (package-private)<br>
+   * Executes remotely the provided JSON data command using the provided session ID.
    *
+   * @param jsonData The JSON data to send.
+   * @param sessionId The session ID to use.
+   * @return A JSON string containing the response received from the distributed local service. It
+   *     can be empty if the command returns nothing.
    * @since 2.0
    */
-  @Override
-  public final String executeRemotely(String jsonData) {
+  final String executeRemotely(String jsonData, String sessionId) {
 
     // Build the message.
     MessageDto message =
         new MessageDto()
             .setAction(MessageDto.Action.CMD.name())
-            .setSessionId(UUID.randomUUID().toString())
+            .setSessionId(sessionId)
             .setBody(jsonData);
 
     // Send the message as a request.

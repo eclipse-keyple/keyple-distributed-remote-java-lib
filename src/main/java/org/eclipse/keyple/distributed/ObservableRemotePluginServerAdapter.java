@@ -22,6 +22,7 @@ import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemotePluginSpi;
 import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemoteReaderSpi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
+import org.eclipse.keyple.core.util.Assert;
 import org.eclipse.keyple.core.util.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +62,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    */
   @Override
   public SyncNodeServer getSyncNode() {
-    AbstractNodeAdapter node = getNode();
-    if (node instanceof SyncNodeServer) {
-      return (SyncNodeServer) node;
+    if (isBoundToSyncNode()) {
+      return (SyncNodeServer) getNode();
     }
     throw new IllegalStateException(
         String.format(
@@ -78,9 +78,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    */
   @Override
   public AsyncNodeServer getAsyncNode() {
-    AbstractNodeAdapter node = getNode();
-    if (node instanceof AsyncNodeServer) {
-      return (AsyncNodeServer) node;
+    if (!isBoundToSyncNode()) {
+      return (AsyncNodeServer) getNode();
     }
     throw new IllegalStateException(
         String.format(
@@ -96,8 +95,15 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   @Override
   public void endRemoteService(String remoteReaderName, Object outputData) {
 
+    Assert.getInstance().notEmpty(remoteReaderName, "remoteReaderName");
+
     // Clean the readers map.
     RemoteReaderServerAdapter reader = readers.remove(remoteReaderName);
+
+    if (reader == null) {
+      throw new IllegalArgumentException(
+          String.format("No reader exists with name '%s'", remoteReaderName));
+    }
 
     // Unregister the remote reader.
     observableRemotePluginApi.removeRemoteReader(remoteReaderName);
@@ -116,6 +122,26 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Send the message
     getNode().sendMessage(message);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.0
+   */
+  @Override
+  public String executeRemotely(String jsonData) {
+    throw new UnsupportedOperationException("executeRemotely");
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.0
+   */
+  @Override
+  public void onUnregister() {
+    // NOP
   }
 
   /**

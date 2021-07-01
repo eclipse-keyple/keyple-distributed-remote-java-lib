@@ -13,7 +13,6 @@ package org.eclipse.keyple.distributed;
 
 import static org.eclipse.keyple.distributed.MessageDto.*;
 
-import java.util.UUID;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
 
 /**
@@ -123,7 +122,8 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
             .setRemoteReaderName(remoteReaderName)
             .setLocalReaderName(localReaderName)
             .setClientNodeId(clientNodeId)
-            .setSessionId(sessionId != null ? sessionId : UUID.randomUUID().toString())
+            .setSessionId(
+                sessionId != null ? sessionId : AbstractMessageHandlerAdapter.generateSessionId())
             .setBody(jsonData);
 
     // Send the message as a request.

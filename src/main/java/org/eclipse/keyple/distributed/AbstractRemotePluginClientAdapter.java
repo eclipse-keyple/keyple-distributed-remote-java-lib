@@ -20,6 +20,8 @@ package org.eclipse.keyple.distributed;
 abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAdapter
     implements RemotePluginClient {
 
+  private String globalSessionId;
+
   /**
    * (package-private)<br>
    * Constructor.
@@ -38,13 +40,58 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
    */
   @Override
   public final AsyncNodeClient getAsyncNode() {
-    AbstractNodeAdapter node = getNode();
-    if (node instanceof AsyncNodeClient) {
-      return (AsyncNodeClient) node;
+    if (!isBoundToSyncNode()) {
+      return (AsyncNodeClient) getNode();
     }
     throw new IllegalStateException(
         String.format(
             "Remote plugin '%s' is not configured with an asynchronous network protocol.",
             getName()));
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>If the session ID is not set, then initialize a new one for the entire plugin's lifecycle
+   * and try to open a new session.<br>
+   * This is required for async node.
+   *
+   * @since 2.0
+   */
+  @Override
+  public final String executeRemotely(String jsonData) {
+    if (isBoundToSyncNode()) {
+      // Sync node => use a temporal session ID.
+      String sessionId = generateSessionId();
+      try {
+        getNode().openSession(sessionId);
+        return executeRemotely(jsonData, sessionId);
+      } finally {
+        getNode().closeSessionSilently(sessionId);
+      }
+    } else {
+      // Async node => use a global session ID.
+      if (globalSessionId == null) {
+        globalSessionId = generateSessionId();
+        getNode().openSession(globalSessionId);
+      }
+      return executeRemotely(jsonData, globalSessionId);
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.0
+   */
+  @Override
+  public final void onUnregister() {
+    if (globalSessionId != null) {
+      try {
+        getNode().closeSessionSilently(globalSessionId);
+      } finally {
+        globalSessionId = null;
+      }
+    }
   }
 }

@@ -63,9 +63,12 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * Configures the service with a {@link AsyncNodeClient} node.
      *
+     * <p>The network channel is opened once and must remain open for the entire lifecycle of the
+     * plugin until it is unregistered.
+     *
      * @param endpoint The {@link AsyncEndpointClientSpi} network endpoint to use.
      * @param timeoutSeconds This timeout (in seconds) defines how long the async client waits for a
-     *     server order before cancelling the global transaction.
+     *     server response before cancelling the global transaction.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null or the timeout {@code <} 1.
      * @since 2.0
