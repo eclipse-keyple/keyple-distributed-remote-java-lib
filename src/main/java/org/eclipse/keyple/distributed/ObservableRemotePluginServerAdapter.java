@@ -131,7 +131,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    */
   @Override
   public String executeRemotely(String jsonData) {
-    throw new UnsupportedOperationException("executeRemotely");
+    // NOP. Invoked only once during the plugin registration process.
+    return null;
   }
 
   /**

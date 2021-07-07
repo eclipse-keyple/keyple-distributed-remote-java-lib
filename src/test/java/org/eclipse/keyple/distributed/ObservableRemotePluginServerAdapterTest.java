@@ -179,9 +179,9 @@ public class ObservableRemotePluginServerAdapterTest {
     assertThat(asyncPlugin.getName()).isEqualTo(REMOTE_PLUGIN_NAME);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
-  public void executeRemotely_whenSync_shouldThrowUOE() {
-    syncPlugin.executeRemotely("");
+  @Test
+  public void executeRemotely_whenSync_shouldReturnNull() {
+    assertThat(syncPlugin.executeRemotely("")).isNull();
   }
 
   @Test

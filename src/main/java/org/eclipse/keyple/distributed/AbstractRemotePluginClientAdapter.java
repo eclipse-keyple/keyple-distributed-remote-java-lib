@@ -34,6 +34,17 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
   }
 
   /**
+   * (package-private)<br>
+   * Gets the global session ID value if is set.
+   *
+   * @return Null if no global session ID is set.
+   * @since 2.0
+   */
+  String getGlobalSessionId() {
+    return globalSessionId;
+  }
+
+  /**
    * {@inheritDoc}
    *
    * @since 2.0
