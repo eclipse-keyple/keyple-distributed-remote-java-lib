@@ -256,22 +256,22 @@ public class ObservableRemotePluginServerAdapterTest {
 
   @Test(expected = UnsupportedOperationException.class)
   public void createRemoteReader_whenSync_ShouldThrowUOE() {
-    syncPlugin.createRemoteReader(REMOTE_READER_NAME);
+    syncPlugin.createRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void createRemoteReader_whenAsync_ShouldThrowUOE() {
-    asyncPlugin.createRemoteReader(REMOTE_READER_NAME);
+    asyncPlugin.createRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void createObservableRemoteReader_whenSync_ShouldThrowUOE() {
-    syncPlugin.createObservableRemoteReader(REMOTE_READER_NAME);
+    syncPlugin.createObservableRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void createObservableRemoteReader_whenAsync_ShouldThrowUOE() {
-    asyncPlugin.createObservableRemoteReader(REMOTE_READER_NAME);
+    asyncPlugin.createObservableRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
   }
 
   @Test(expected = IllegalStateException.class)

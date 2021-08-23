@@ -29,6 +29,7 @@ public class RemotePluginClientAdapterTest {
 
   static final String REMOTE_PLUGIN_NAME = "REMOTE_PLUGIN_NAME";
   static final String REMOTE_READER_NAME = "REMOTE_READER_NAME";
+  static final String LOCAL_READER_NAME = "LOCAL_READER_NAME";
 
   static final String READER_EVENT_DATA = "READER_EVENT_DATA";
   static final MessageDto READER_EVENT_MSG =
@@ -101,24 +102,26 @@ public class RemotePluginClientAdapterTest {
   @Test
   public void createRemoteReader_shouldCreateARemoteReader() {
     // Sync
-    RemoteReaderSpi syncRemoteReaderSpi = syncPlugin.createRemoteReader(REMOTE_READER_NAME);
+    RemoteReaderSpi syncRemoteReaderSpi =
+        syncPlugin.createRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
     assertThat(syncRemoteReaderSpi)
         .isInstanceOf(RemoteReaderClient.class)
         .isInstanceOf(RemoteReaderClientAdapter.class);
     RemoteReaderClientAdapter syncRemoteReader = (RemoteReaderClientAdapter) syncRemoteReaderSpi;
     assertThat(syncRemoteReader.getName()).isEqualTo(REMOTE_READER_NAME);
-    assertThat(syncRemoteReader.getLocalReaderName()).isEqualTo(REMOTE_READER_NAME);
+    assertThat(syncRemoteReader.getLocalReaderName()).isEqualTo(LOCAL_READER_NAME);
     assertThat(syncRemoteReader.getNode()).isSameAs(syncPlugin.getNode());
     assertThat(syncRemoteReader.getClientNodeId()).isEqualTo(syncPlugin.getNode().getNodeId());
     assertThat(syncRemoteReader.getSessionId()).isNull();
     // Async
-    RemoteReaderSpi asyncRemoteReaderSpi = asyncPlugin.createRemoteReader(REMOTE_READER_NAME);
+    RemoteReaderSpi asyncRemoteReaderSpi =
+        asyncPlugin.createRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
     assertThat(asyncRemoteReaderSpi)
         .isInstanceOf(RemoteReaderClient.class)
         .isInstanceOf(RemoteReaderClientAdapter.class);
     RemoteReaderClientAdapter asyncRemoteReader = (RemoteReaderClientAdapter) asyncRemoteReaderSpi;
     assertThat(asyncRemoteReader.getName()).isEqualTo(REMOTE_READER_NAME);
-    assertThat(asyncRemoteReader.getLocalReaderName()).isEqualTo(REMOTE_READER_NAME);
+    assertThat(asyncRemoteReader.getLocalReaderName()).isEqualTo(LOCAL_READER_NAME);
     assertThat(asyncRemoteReader.getNode()).isSameAs(asyncPlugin.getNode());
     assertThat(asyncRemoteReader.getClientNodeId()).isEqualTo(asyncPlugin.getNode().getNodeId());
     assertThat(asyncRemoteReader.getSessionId()).isNull();
@@ -128,27 +131,27 @@ public class RemotePluginClientAdapterTest {
   public void createObservableRemoteReader_shouldCreateAnObservableRemoteReader() {
     // Sync
     ObservableRemoteReaderSpi syncRemoteReaderSpi =
-        syncPlugin.createObservableRemoteReader(REMOTE_READER_NAME);
+        syncPlugin.createObservableRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
     assertThat(syncRemoteReaderSpi)
         .isInstanceOf(RemoteReaderClient.class)
         .isInstanceOf(ObservableRemoteReaderClientAdapter.class);
     ObservableRemoteReaderClientAdapter syncRemoteReader =
         (ObservableRemoteReaderClientAdapter) syncRemoteReaderSpi;
     assertThat(syncRemoteReader.getName()).isEqualTo(REMOTE_READER_NAME);
-    assertThat(syncRemoteReader.getLocalReaderName()).isEqualTo(REMOTE_READER_NAME);
+    assertThat(syncRemoteReader.getLocalReaderName()).isEqualTo(LOCAL_READER_NAME);
     assertThat(syncRemoteReader.getNode()).isSameAs(syncPlugin.getNode());
     assertThat(syncRemoteReader.getClientNodeId()).isEqualTo(syncPlugin.getNode().getNodeId());
     assertThat(syncRemoteReader.getSessionId()).isNull();
     // Async
     RemoteReaderSpi asyncRemoteReaderSpi =
-        asyncPlugin.createObservableRemoteReader(REMOTE_READER_NAME);
+        asyncPlugin.createObservableRemoteReader(REMOTE_READER_NAME, LOCAL_READER_NAME);
     assertThat(asyncRemoteReaderSpi)
         .isInstanceOf(RemoteReaderClient.class)
         .isInstanceOf(ObservableRemoteReaderClientAdapter.class);
     ObservableRemoteReaderClientAdapter asyncRemoteReader =
         (ObservableRemoteReaderClientAdapter) asyncRemoteReaderSpi;
     assertThat(asyncRemoteReader.getName()).isEqualTo(REMOTE_READER_NAME);
-    assertThat(asyncRemoteReader.getLocalReaderName()).isEqualTo(REMOTE_READER_NAME);
+    assertThat(asyncRemoteReader.getLocalReaderName()).isEqualTo(LOCAL_READER_NAME);
     assertThat(asyncRemoteReader.getNode()).isSameAs(asyncPlugin.getNode());
     assertThat(asyncRemoteReader.getClientNodeId()).isEqualTo(asyncPlugin.getNode().getNodeId());
     assertThat(asyncRemoteReader.getSessionId()).isNull();

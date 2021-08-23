@@ -60,9 +60,9 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
    * @since 2.0
    */
   @Override
-  public final RemoteReaderSpi createRemoteReader(String localReaderName) {
+  public final RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
     return new RemoteReaderClientAdapter(
-        localReaderName, localReaderName, getGlobalSessionId(), getNode().getNodeId(), getNode());
+        remoteReaderName, localReaderName, getGlobalSessionId(), getNode().getNodeId(), getNode());
   }
 
   /**
@@ -71,13 +71,14 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
    * @since 2.0
    */
   @Override
-  public final ObservableRemoteReaderSpi createObservableRemoteReader(String localReaderName) {
+  public final ObservableRemoteReaderSpi createObservableRemoteReader(
+      String remoteReaderName, String localReaderName) {
     if (!isReaderObservationEnabled) {
       throw new IllegalStateException(
           "Cannot create the observable remote reader because the reader observation strategy is not configured.");
     }
     return new ObservableRemoteReaderClientAdapter(
-        localReaderName, localReaderName, getGlobalSessionId(), getNode().getNodeId(), getNode());
+        remoteReaderName, localReaderName, getGlobalSessionId(), getNode().getNodeId(), getNode());
   }
 
   /**

@@ -161,7 +161,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    * @since 2.0
    */
   @Override
-  public RemoteReaderSpi createRemoteReader(String localReaderName) {
+  public RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
     throw new UnsupportedOperationException("createRemoteReader");
   }
 
@@ -171,7 +171,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    * @since 2.0
    */
   @Override
-  public ObservableRemoteReaderSpi createObservableRemoteReader(String localReaderName) {
+  public ObservableRemoteReaderSpi createObservableRemoteReader(
+      String remoteReaderName, String localReaderName) {
     throw new UnsupportedOperationException("createObservableRemoteReader");
   }
 
