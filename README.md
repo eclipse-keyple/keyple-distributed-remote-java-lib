@@ -1,4 +1,4 @@
-# Keyple Java Distributed Remote
+# Keyple Distributed Remote Java Lib
 
 ## Overview
 
@@ -11,6 +11,14 @@ It is important to note that it uses and exposes the APIs exposed by the library
 ## User Guide & Download Information
 
 The full documentation, including download information is available in the **Developer guides / Distributed application** section of the official Keyple website [keyple.org](https://keyple.org)
+
+## Javadoc
+
+The javadoc is available online: [eclipse.github.io/keyple-distributed-remote-java-lib/](https://eclipse.github.io/keyple-distributed-remote-java-lib/)
+
+## Examples
+
+Examples of implementation are available in the following repository: [github.com/eclipse/keyple-java-example](https://github.com/eclipse/keyple-java-example)
 
 ## Build the Code
 
