@@ -17,6 +17,6 @@ import org.eclipse.keyple.core.common.KeyplePluginExtensionFactory;
  * Factory of {@link RemotePluginServer} to provide to the Keyple main service during the
  * registration process.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public interface RemotePluginServerFactory extends KeyplePluginExtensionFactory {}

@@ -22,7 +22,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
  * (package-private)<br>
  * Adapter of {@link RemotePluginClient}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
     implements RemotePluginSpi {
@@ -37,7 +37,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
    *
    * @param remotePluginName The name of the remote plugin.
    * @param isReaderObservationEnabled Is reader observation enabled ?
-   * @since 2.0
+   * @since 2.0.0
    */
   RemotePluginClientAdapter(String remotePluginName, boolean isReaderObservationEnabled) {
     super(remotePluginName);
@@ -47,7 +47,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void connect(RemotePluginApi remotePluginApi) {
@@ -57,7 +57,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
@@ -68,7 +68,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final ObservableRemoteReaderSpi createObservableRemoteReader(
@@ -84,7 +84,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   void onMessage(MessageDto message) {

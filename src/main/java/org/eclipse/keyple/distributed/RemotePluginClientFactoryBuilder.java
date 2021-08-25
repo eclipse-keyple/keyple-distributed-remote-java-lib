@@ -21,7 +21,7 @@ import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
  * Builder of {@link RemotePluginClientFactory} for Keyple <b>Plugin</b> or <b>ObservablePlugin</b>
  * type.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public final class RemotePluginClientFactoryBuilder {
 
@@ -37,7 +37,7 @@ public final class RemotePluginClientFactoryBuilder {
    * @param remotePluginName The identifier of the remote plugin.
    * @return Next configuration step.
    * @throws IllegalArgumentException If the plugin name is null or empty.
-   * @since 2.0
+   * @since 2.0.0
    */
   public static NodeStep builder(String remotePluginName) {
     return new Builder(remotePluginName);
@@ -46,7 +46,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Step to configure the node associated with the service.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface NodeStep {
 
@@ -56,7 +56,7 @@ public final class RemotePluginClientFactoryBuilder {
      * @param endpoint The {@link SyncEndpointClientSpi} network endpoint to use.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the provided endpoint is null.
-     * @since 2.0
+     * @since 2.0.0
      */
     SyncNodePluginStep withSyncNode(SyncEndpointClientSpi endpoint);
 
@@ -71,7 +71,7 @@ public final class RemotePluginClientFactoryBuilder {
      *     server response before cancelling the global transaction.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null or the timeout {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withAsyncNode(AsyncEndpointClientSpi endpoint, int timeoutSeconds);
   }
@@ -79,7 +79,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Step to activate the plugin observation for sync protocol.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface SyncNodePluginStep {
 
@@ -87,7 +87,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Activates the plugin observation.
      *
      * @return Next configuration step.
-     * @since 2.0
+     * @since 2.0.0
      */
     ServerPushPluginEventStrategyStep withPluginObservation();
 
@@ -95,7 +95,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Do not activate the plugin observation.
      *
      * @return Next configuration step.
-     * @since 2.0
+     * @since 2.0.0
      */
     SyncNodeReaderStep withoutPluginObservation();
   }
@@ -103,7 +103,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Step to configure the plugin observation for sync protocol.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface ServerPushPluginEventStrategyStep {
 
@@ -116,7 +116,7 @@ public final class RemotePluginClientFactoryBuilder {
      * @param requestFrequencyMillis The request frequency duration (in milliseconds).
      * @return Next configuration step.
      * @throws IllegalArgumentException If the frequency is {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     SyncNodeReaderStep withPluginPollingStrategy(int requestFrequencyMillis);
 
@@ -130,7 +130,7 @@ public final class RemotePluginClientFactoryBuilder {
      * @param requestTimeoutMillis The request timeout duration (in milliseconds).
      * @return Next configuration step.
      * @throws IllegalArgumentException If the timeout is {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     SyncNodeReaderStep withPluginLongPollingStrategy(int requestTimeoutMillis);
   }
@@ -138,7 +138,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Step to activate the reader observation for sync protocol.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface SyncNodeReaderStep {
 
@@ -146,7 +146,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Activates the reader observation.
      *
      * @return Next configuration step.
-     * @since 2.0
+     * @since 2.0.0
      */
     ServerPushReaderEventStrategyStep withReaderObservation();
 
@@ -154,7 +154,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Do not activate the reader observation.
      *
      * @return Next configuration step.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withoutReaderObservation();
   }
@@ -162,7 +162,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Step to configure the reader observation for sync protocol.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface ServerPushReaderEventStrategyStep {
 
@@ -175,7 +175,7 @@ public final class RemotePluginClientFactoryBuilder {
      * @param requestFrequencyMillis The request frequency duration (in milliseconds).
      * @return Next configuration step.
      * @throws IllegalArgumentException If the frequency is {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withReaderPollingStrategy(int requestFrequencyMillis);
 
@@ -189,7 +189,7 @@ public final class RemotePluginClientFactoryBuilder {
      * @param requestTimeoutMillis The request timeout duration (in milliseconds).
      * @return Next configuration step.
      * @throws IllegalArgumentException If the timeout is {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withReaderLongPollingStrategy(int requestTimeoutMillis);
   }
@@ -197,7 +197,7 @@ public final class RemotePluginClientFactoryBuilder {
   /**
    * Last step : build a new instance.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface BuilderStep {
 
@@ -205,7 +205,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Creates a new instance of {@link RemotePluginClientFactory} using the current configuration.
      *
      * @return A not null reference.
-     * @since 2.0
+     * @since 2.0.0
      */
     RemotePluginClientFactory build();
   }
@@ -241,7 +241,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public SyncNodePluginStep withSyncNode(SyncEndpointClientSpi endpoint) {
@@ -253,7 +253,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withAsyncNode(AsyncEndpointClientSpi endpoint, int timeoutSeconds) {
@@ -268,7 +268,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public ServerPushPluginEventStrategyStep withPluginObservation() {
@@ -278,7 +278,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public SyncNodeReaderStep withoutPluginObservation() {
@@ -289,7 +289,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public SyncNodeReaderStep withPluginPollingStrategy(int requestFrequencyMillis) {
@@ -302,7 +302,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public SyncNodeReaderStep withPluginLongPollingStrategy(int requestTimeoutMillis) {
@@ -315,7 +315,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public ServerPushReaderEventStrategyStep withReaderObservation() {
@@ -325,7 +325,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withoutReaderObservation() {
@@ -336,7 +336,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withReaderPollingStrategy(int requestFrequencyMillis) {
@@ -349,7 +349,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withReaderLongPollingStrategy(int requestTimeoutMillis) {
@@ -362,7 +362,7 @@ public final class RemotePluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public RemotePluginClientFactory build() {

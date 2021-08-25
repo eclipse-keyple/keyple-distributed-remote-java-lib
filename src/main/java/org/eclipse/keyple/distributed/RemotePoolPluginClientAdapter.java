@@ -18,7 +18,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
  * (package-private)<br>
  * Adapter of pool {@link RemotePluginClient}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
     implements RemotePoolPluginSpi {
@@ -28,7 +28,7 @@ class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @since 2.0
+   * @since 2.0.0
    */
   RemotePoolPluginClientAdapter(String remotePluginName) {
     super(remotePluginName);
@@ -37,7 +37,7 @@ class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
@@ -48,7 +48,7 @@ class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   void onMessage(MessageDto message) {

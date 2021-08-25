@@ -17,7 +17,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
  * (package-private)<br>
  * Abstract class for all remote plugin adapters.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
     implements AbstractRemotePluginSpi {
@@ -29,7 +29,7 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @since 2.0
+   * @since 2.0.0
    */
   AbstractRemotePluginAdapter(String remotePluginName) {
     this.remotePluginName = remotePluginName;
@@ -38,7 +38,7 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final String getName() {
@@ -53,7 +53,7 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
    * @param sessionId The session ID to use.
    * @return A JSON string containing the response received from the distributed local service. It
    *     can be empty if the command returns nothing.
-   * @since 2.0
+   * @since 2.0.0
    */
   final String executeRemotely(String jsonData, String sessionId) {
 

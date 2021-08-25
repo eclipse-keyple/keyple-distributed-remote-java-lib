@@ -19,6 +19,6 @@ import org.eclipse.keyple.core.common.KeypleReaderExtension;
  *
  * <p>It is a {@link KeypleReaderExtension} of a Keyple <b>Reader</b> or <b>ObservableReader</b>.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public interface RemoteReaderClient extends KeypleReaderExtension {}

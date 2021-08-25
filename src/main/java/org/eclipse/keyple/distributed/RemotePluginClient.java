@@ -24,7 +24,7 @@ import org.eclipse.keyple.core.common.KeyplePluginExtension;
  * <p>It is a {@link KeyplePluginExtension} of a Keyple <b>Plugin</b>, <b>ObservablePlugin</b> or
  * <b>PoolPlugin</b>.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public interface RemotePluginClient extends KeyplePluginExtension {
 
@@ -35,7 +35,7 @@ public interface RemotePluginClient extends KeyplePluginExtension {
    * @return A not null reference.
    * @throws IllegalStateException If the service is not configured with an asynchronous network
    *     protocol.
-   * @since 2.0
+   * @since 2.0.0
    */
   AsyncNodeClient getAsyncNode();
 }

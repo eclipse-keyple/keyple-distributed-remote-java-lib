@@ -15,7 +15,7 @@ package org.eclipse.keyple.distributed;
  * (package-private)<br>
  * Abstract class of all {@link RemotePluginClient} adapters.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAdapter
     implements RemotePluginClient {
@@ -27,7 +27,7 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @since 2.0
+   * @since 2.0.0
    */
   AbstractRemotePluginClientAdapter(String remotePluginName) {
     super(remotePluginName);
@@ -38,7 +38,7 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
    * Gets the global session ID value if is set.
    *
    * @return Null if no global session ID is set.
-   * @since 2.0
+   * @since 2.0.0
    */
   final String getGlobalSessionId() {
     return globalSessionId;
@@ -47,7 +47,7 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final AsyncNodeClient getAsyncNode() {
@@ -67,7 +67,7 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
    * and try to open a new session.<br>
    * This is required for async node.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final String executeRemotely(String jsonData) {
@@ -93,7 +93,7 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final void onUnregister() {

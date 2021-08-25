@@ -17,7 +17,7 @@ import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
 /**
  * Builder of {@link RemotePluginServerFactory} for Keyple <b>ObservablePlugin</b> type.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public final class RemotePluginServerFactoryBuilder {
 
@@ -33,7 +33,7 @@ public final class RemotePluginServerFactoryBuilder {
    * @param remotePluginName The identifier of the remote plugin.
    * @return Next configuration step.
    * @throws IllegalArgumentException If the plugin name is null or empty.
-   * @since 2.0
+   * @since 2.0.0
    */
   public static NodeStep builder(String remotePluginName) {
     return new Builder(remotePluginName);
@@ -42,7 +42,7 @@ public final class RemotePluginServerFactoryBuilder {
   /**
    * Step to configure the node associated with the service.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface NodeStep {
 
@@ -50,7 +50,7 @@ public final class RemotePluginServerFactoryBuilder {
      * Configures the service with a {@link SyncNodeServer} node.
      *
      * @return Next configuration step.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withSyncNode();
 
@@ -60,7 +60,7 @@ public final class RemotePluginServerFactoryBuilder {
      * @param endpoint The {@link AsyncEndpointServerSpi} network endpoint to use.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint);
   }
@@ -68,7 +68,7 @@ public final class RemotePluginServerFactoryBuilder {
   /**
    * Last step : builds a new instance.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface BuilderStep {
 
@@ -76,7 +76,7 @@ public final class RemotePluginServerFactoryBuilder {
      * Creates a new instance of {@link RemotePluginServerFactory} using the current configuration.
      *
      * @return A not null reference.
-     * @since 2.0
+     * @since 2.0.0
      */
     RemotePluginServerFactory build();
   }
@@ -98,7 +98,7 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withSyncNode() {
@@ -108,7 +108,7 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint) {
@@ -120,7 +120,7 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public RemotePluginServerFactory build() {

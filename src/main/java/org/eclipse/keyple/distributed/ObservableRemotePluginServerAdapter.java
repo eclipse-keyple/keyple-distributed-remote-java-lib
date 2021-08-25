@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * (package-private)<br>
  * Adapter of {@link RemotePluginServer}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdapter
     implements RemotePluginServer, ObservableRemotePluginSpi {
@@ -48,7 +48,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
-   * @since 2.0
+   * @since 2.0.0
    */
   ObservableRemotePluginServerAdapter(String remotePluginName) {
     super(remotePluginName);
@@ -58,7 +58,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public SyncNodeServer getSyncNode() {
@@ -74,7 +74,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public AsyncNodeServer getAsyncNode() {
@@ -90,7 +90,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void endRemoteService(String remoteReaderName, Object outputData) {
@@ -127,7 +127,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public String executeRemotely(String jsonData) {
@@ -138,7 +138,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onUnregister() {
@@ -148,7 +148,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void connect(RemotePluginApi remotePluginApi) {
@@ -158,7 +158,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
@@ -168,7 +168,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public ObservableRemoteReaderSpi createObservableRemoteReader(
@@ -179,7 +179,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void connect(ObservableRemotePluginApi observableRemotePluginApi) {
@@ -189,7 +189,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStartObservation() {
@@ -199,7 +199,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStopObservation() {
@@ -209,7 +209,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   void onMessage(MessageDto message) {

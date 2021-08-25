@@ -18,7 +18,7 @@ import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
 /**
  * Builder of {@link RemotePluginClientFactory} for Keyple <b>PoolPlugin</b> type.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public final class RemotePoolPluginClientFactoryBuilder {
 
@@ -34,7 +34,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
    * @param remotePluginName The identifier of the remote pool plugin.
    * @return Next configuration step.
    * @throws IllegalArgumentException If the pool plugin name is null or empty.
-   * @since 2.0
+   * @since 2.0.0
    */
   public static NodeStep builder(String remotePluginName) {
     return new Builder(remotePluginName);
@@ -43,7 +43,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
   /**
    * Step to configure the node associated with the service.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface NodeStep {
 
@@ -53,7 +53,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
      * @param endpoint The {@link SyncEndpointClientSpi} network endpoint to use.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the provided endpoint is null.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withSyncNode(SyncEndpointClientSpi endpoint);
 
@@ -68,7 +68,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
      *     server order before cancelling the global transaction.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null or the timeout {@code <} 1.
-     * @since 2.0
+     * @since 2.0.0
      */
     BuilderStep withAsyncNode(AsyncEndpointClientSpi endpoint, int timeoutSeconds);
   }
@@ -76,7 +76,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
   /**
    * Last step : build a new instance.
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   public interface BuilderStep {
 
@@ -84,7 +84,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
      * Creates a new instance of {@link RemotePluginClientFactory} using the current configuration.
      *
      * @return A not null reference.
-     * @since 2.0
+     * @since 2.0.0
      */
     RemotePluginClientFactory build();
   }
@@ -108,7 +108,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withSyncNode(SyncEndpointClientSpi endpoint) {
@@ -120,7 +120,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public BuilderStep withAsyncNode(AsyncEndpointClientSpi endpoint, int timeoutSeconds) {
@@ -135,7 +135,7 @@ public final class RemotePoolPluginClientFactoryBuilder {
     /**
      * {@inheritDoc}
      *
-     * @since 2.0
+     * @since 2.0.0
      */
     @Override
     public RemotePluginClientFactory build() {

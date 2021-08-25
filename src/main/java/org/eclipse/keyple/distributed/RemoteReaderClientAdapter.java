@@ -15,7 +15,7 @@ package org.eclipse.keyple.distributed;
  * (package-private)<br>
  * Adapter of {@link RemoteReaderClient}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements RemoteReaderClient {
 
@@ -28,7 +28,7 @@ class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements R
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
    * @param node The associated node.
-   * @since 2.0
+   * @since 2.0.0
    */
   RemoteReaderClientAdapter(
       String remoteReaderName,

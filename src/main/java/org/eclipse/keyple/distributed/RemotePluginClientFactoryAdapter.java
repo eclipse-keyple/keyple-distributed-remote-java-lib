@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * (package-private)<br>
  * Adapter of {@link RemotePluginClientFactory}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactoryAdapter
     implements RemotePluginClientFactory {
@@ -51,7 +51,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
    * @param syncReaderObservationStrategy The reader observation strategy to use for sync protocol.
    * @param asyncEndpointClientSpi The async endpoint client to bind.
    * @param asyncNodeClientTimeoutSeconds The client timeout to use for async protocol (in seconds).
-   * @since 2.0
+   * @since 2.0.0
    */
   RemotePluginClientFactoryAdapter( // NOSONAR
       String remotePluginName,
@@ -77,7 +77,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public AbstractRemotePluginSpi getRemotePlugin() {

@@ -17,7 +17,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemoteReaderSpi;
  * (package-private)<br>
  * Adapter of observable {@link RemoteReaderClient}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapter
     implements ObservableRemoteReaderSpi {
@@ -31,7 +31,7 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
    * @param node The associated node.
-   * @since 2.0
+   * @since 2.0.0
    */
   ObservableRemoteReaderClientAdapter(
       String remoteReaderName,
@@ -45,7 +45,7 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStartObservation() {
@@ -55,7 +55,7 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStopObservation() {

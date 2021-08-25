@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * (package-private)<br>
  * Adapter of {@link RemotePluginServerFactory}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactoryAdapter
     implements RemotePluginServerFactory {
@@ -36,7 +36,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
    *
    * @param remotePluginName The name of the remote plugin to build.
    * @param asyncEndpointServerSpi The async endpoint server to bind.
-   * @since 2.0
+   * @since 2.0.0
    */
   RemotePluginServerFactoryAdapter(
       String remotePluginName, AsyncEndpointServerSpi asyncEndpointServerSpi) {
@@ -47,7 +47,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public AbstractRemotePluginSpi getRemotePlugin() {

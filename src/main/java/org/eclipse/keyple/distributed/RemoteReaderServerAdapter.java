@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * (package-private)<br>
  * Adapter of {@link RemoteReaderServer}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
     implements RemoteReaderServer {
@@ -45,7 +45,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @param initialCardContentJson The optional initial card content as a JSON string.
    * @param initialCardContentClassName The class name of the optional initial card content.
    * @param inputDataJson The optional input data as a JSON string.
-   * @since 2.0
+   * @since 2.0.0
    */
   RemoteReaderServerAdapter( // NOSONAR
       String remoteReaderName,
@@ -67,7 +67,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public String getServiceId() {
@@ -77,7 +77,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public Object getInitialCardContent() {
@@ -95,7 +95,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public <T> T getInputData(Class<T> inputDataClass) {

@@ -19,7 +19,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
  * (package-private)<br>
  * Abstract class for all remote reader adapters.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
 
@@ -38,7 +38,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
    * @param node The associated node.
-   * @since 2.0
+   * @since 2.0.0
    */
   AbstractRemoteReaderAdapter(
       String remoteReaderName,
@@ -58,7 +58,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * Gets the associated local reader name.
    *
    * @return A not empty string.
-   * @since 2.0
+   * @since 2.0.0
    */
   final String getLocalReaderName() {
     return localReaderName;
@@ -69,7 +69,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * Gets the associated session ID.
    *
    * @return Null if no session ID is set.
-   * @since 2.0
+   * @since 2.0.0
    */
   final String getSessionId() {
     return sessionId;
@@ -80,7 +80,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * Gets the associated client node ID.
    *
    * @return A not empty string.
-   * @since 2.0
+   * @since 2.0.0
    */
   final String getClientNodeId() {
     return clientNodeId;
@@ -91,7 +91,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * Gets the associated node.
    *
    * @return A not null reference.
-   * @since 2.0
+   * @since 2.0.0
    */
   final AbstractNodeAdapter getNode() {
     return node;
@@ -100,7 +100,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final String getName() {
@@ -110,7 +110,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public final String executeRemotely(String jsonData) {

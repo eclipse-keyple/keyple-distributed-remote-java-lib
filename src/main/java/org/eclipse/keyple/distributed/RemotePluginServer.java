@@ -51,7 +51,7 @@ import org.eclipse.keyple.core.common.KeyplePluginExtension;
  *       optionally a output data to transmit to the client.
  * </ol>
  *
- * @since 2.0
+ * @since 2.0.0
  */
 public interface RemotePluginServer extends KeyplePluginExtension {
 
@@ -62,7 +62,7 @@ public interface RemotePluginServer extends KeyplePluginExtension {
    * @return A not null reference.
    * @throws IllegalStateException If the service is not configured with a synchronous network
    *     protocol.
-   * @since 2.0
+   * @since 2.0.0
    */
   SyncNodeServer getSyncNode();
 
@@ -73,7 +73,7 @@ public interface RemotePluginServer extends KeyplePluginExtension {
    * @return A not null reference.
    * @throws IllegalStateException If the service is not configured with an asynchronous network
    *     protocol.
-   * @since 2.0
+   * @since 2.0.0
    */
   AsyncNodeServer getAsyncNode();
 
@@ -90,7 +90,7 @@ public interface RemotePluginServer extends KeyplePluginExtension {
    * @param remoteReaderName The remote reader name.
    * @param outputData The object containing output data (optional).
    * @throws IllegalArgumentException If the remote reader name is null, empty or unknown.
-   * @since 2.0
+   * @since 2.0.0
    */
   void endRemoteService(String remoteReaderName, Object outputData);
 }

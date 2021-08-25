@@ -20,7 +20,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemotePluginSpi;
  * (package-private)<br>
  * Adapter of an observable {@link RemotePluginClient}.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapter
     implements ObservableRemotePluginSpi {
@@ -33,7 +33,7 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
    *
    * @param remotePluginName The name of the remote plugin.
    * @param isReaderObservationEnabled Is reader observation enabled ?
-   * @since 2.0
+   * @since 2.0.0
    */
   ObservableRemotePluginClientAdapter(String remotePluginName, boolean isReaderObservationEnabled) {
     super(remotePluginName, isReaderObservationEnabled);
@@ -42,7 +42,7 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void connect(ObservableRemotePluginApi observableRemotePluginApi) {
@@ -52,7 +52,7 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStartObservation() {
@@ -62,7 +62,7 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public void onStopObservation() {
@@ -72,7 +72,7 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   void onMessage(MessageDto message) {

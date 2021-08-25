@@ -19,7 +19,7 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
  * (package-private)<br>
  * Abstract class of all remote plugin factory adapters.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactorySpi {
 
@@ -30,7 +30,7 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin to build.
-   * @since 2.0
+   * @since 2.0.0
    */
   AbstractRemotePluginFactoryAdapter(String remotePluginName) {
     this.remotePluginName = remotePluginName;
@@ -39,7 +39,7 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public String getDistributedRemoteApiVersion() {
@@ -49,7 +49,7 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public String getCommonApiVersion() {
@@ -59,7 +59,7 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
   /**
    * {@inheritDoc}
    *
-   * @since 2.0
+   * @since 2.0.0
    */
   @Override
   public String getRemotePluginName() {
