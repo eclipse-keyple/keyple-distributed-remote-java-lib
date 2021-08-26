@@ -2,15 +2,15 @@
 
 ## Overview
 
-The **Keyple Distributed Remote** Java library is one of the two main libraries provided by the **Keyple Distributed** solution (the other one is [Keyple Java Distributed Local](https://github.com/eclipse/keyple-distributed-local-java-lib)).
+The **Keyple Distributed Remote Java Library** is one of the two main libraries provided by the **Keyple Distributed** solution (the other one is [Keyple Distributed Local Java Lib](https://github.com/eclipse/keyple-distributed-local-java-lib)).
 
-It must be imported and used by the application installed on the terminal not having local access to the smart card reader and that wishes to control the reader remotely.
+It must be imported and used by the application installed on the terminal **not having local access** to the smart card reader and that wishes to control the reader remotely.
 
-It is important to note that it uses and exposes the APIs exposed by the library [Keyple Java Distributed Network](https://github.com/eclipse/keyple-distributed-network-java-lib).
+It uses the common library [Keyple Distributed Network Java Lib](https://github.com/eclipse/keyple-distributed-network-java-lib).
 
-## User Guide & Download Information
+## Documentation & Contribution Guide
 
-The full documentation, including download information is available in the **Developer guides / Distributed application** section of the official Keyple website [keyple.org](https://keyple.org)
+The full documentation, including the **user guide**, **download information** and **contribution guide**, is available on the Keyple website [keyple.org](https://keyple.org).
 
 ## Javadoc
 
@@ -20,10 +20,6 @@ The javadoc is available online: [eclipse.github.io/keyple-distributed-remote-ja
 
 Examples of implementation are available in the following repository: [github.com/eclipse/keyple-java-example](https://github.com/eclipse/keyple-java-example)
 
-## Build the Code
+## About the source code
 
-The code is built with **Gradle** and is compliant with **Java 1.6** in order to be able to be used by a very large number of applications.
-
-## Code Contributions
-
-We welcome code contributions through merge requests.
+The code is built with **Gradle** and is compliant with **Java 1.6** in order to address a wide range of applications.
