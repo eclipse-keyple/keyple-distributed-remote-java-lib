@@ -11,13 +11,13 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemotePluginServerFactory}.
  *
  * @since 2.0.0
@@ -28,19 +28,23 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
   private static final Logger logger =
       LoggerFactory.getLogger(RemotePluginServerFactoryAdapter.class);
 
+  private final ExecutorService executorService;
   private final AsyncEndpointServerSpi asyncEndpointServerSpi;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin to build.
+   * @param executorService The executor service to be used (optional).
    * @param asyncEndpointServerSpi The async endpoint server to bind.
    * @since 2.0.0
    */
   RemotePluginServerFactoryAdapter(
-      String remotePluginName, AsyncEndpointServerSpi asyncEndpointServerSpi) {
+      String remotePluginName,
+      ExecutorService executorService,
+      AsyncEndpointServerSpi asyncEndpointServerSpi) {
     super(remotePluginName);
+    this.executorService = executorService;
     this.asyncEndpointServerSpi = asyncEndpointServerSpi;
   }
 
@@ -54,7 +58,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
 
     // Create the remote plugin.
     ObservableRemotePluginServerAdapter remotePlugin =
-        new ObservableRemotePluginServerAdapter(getRemotePluginName());
+        new ObservableRemotePluginServerAdapter(getRemotePluginName(), executorService);
 
     // Bind the node.
     String nodeType = asyncEndpointServerSpi != null ? "AsyncNodeServer" : "SyncNodeServer";

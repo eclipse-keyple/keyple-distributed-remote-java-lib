@@ -114,6 +114,12 @@ public class ObservableRemotePluginClientAdapterTest {
   }
 
   @Test
+  public void getExecutorService_shouldReturnNull() {
+    assertThat(syncPlugin.getExecutorService()).isNull();
+    assertThat(asyncPlugin.getExecutorService()).isNull();
+  }
+
+  @Test
   public void createRemoteReader_shouldCreateARemoteReader() {
     // Sync
     RemoteReaderSpi syncRemoteReaderSpi =

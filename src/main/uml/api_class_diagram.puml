@@ -1,6 +1,6 @@
 @startuml
 title
-    Keyple - keyple-distributed-remote-java-lib - 2.0.+ (10/06/2021)
+    Keyple - keyple-distributed-remote-java-lib - 2.1.+ (2023-02-17)
 end title
 
 ' == THEME ==
@@ -15,13 +15,19 @@ end title
 !define C_LINK 3498DB
 !define C_USE 27AE60
 
-skinparam Shadowing false
-skinparam ClassFontStyle italic
-skinparam ClassBorderColor #D4AC0D
+' -- Styles that don't work with new version of plantuml --
 skinparam stereotypeABorderColor #A9DCDF
 skinparam stereotypeIBorderColor #B4A7E5
 skinparam stereotypeCBorderColor #ADD1B2
 skinparam stereotypeEBorderColor #EB93DF
+' -- END --
+
+skinparam ClassBorderThickness 2
+skinparam ArrowThickness 2
+
+' Yellow
+skinparam ClassBackgroundColor #FEFECE
+skinparam ClassBorderColor #D4AC0D
 ' Red
 skinparam ClassBackgroundColor<<red>> #FDEDEC
 skinparam ClassBorderColor<<red>> #E74C3C
@@ -87,8 +93,9 @@ package "org.eclipse.keyple.distributed" as root {
     together {
         +class "**final** RemotePluginServerFactoryBuilder" as RemotePluginServerFactoryBuilder {
             + {static} NodeStep builder (String remotePluginName)
+            + <color:green>{static} NodeStep builder (String remotePluginName, ExecutorService executorService)
         }
-        note top: Build on __Server__ a factory of **ObservablePlugin**
+        note top: Builds on __Server__ a factory of **ObservablePlugin**
         +interface "NodeStep" as RemotePluginServerFactoryNodeStep {
             + BuilderStep withSyncNode ()
             + BuilderStep withAsyncNode (<back:yellow>AsyncEndpointServerSpi</back> endpoint)
@@ -100,7 +107,7 @@ package "org.eclipse.keyple.distributed" as root {
         +class "**final** RemotePluginClientFactoryBuilder" as RemotePluginClientFactoryBuilder {
             + {static} NodeStep builder (String remotePluginName)
         }
-        note top: Build on __Client__ a factory of **Plugin** or **ObservablePlugin**
+        note top: Builds on __Client__ a factory of **Plugin** or **ObservablePlugin**
         +interface "NodeStep" as RemotePluginClientFactoryNodeStep {
             + SyncNodePluginStep withSyncNode (<back:yellow>SyncEndpointClientSpi</back> endpoint)
             + BuilderStep withAsyncNode (<back:yellow>AsyncEndpointClientSpi</back> endpoint, int timeoutSeconds)
@@ -128,7 +135,7 @@ package "org.eclipse.keyple.distributed" as root {
         +class "**final** RemotePoolPluginClientFactoryBuilder" as RemotePoolPluginClientFactoryBuilder {
             + {static} NodeStep builder (String remotePluginName)
         }
-        note top: Build on __Client__ a factory of **PoolPlugin**
+        note top: Builds on __Client__ a factory of **PoolPlugin**
         +class "NodeStep" as RemotePoolPluginClientFactoryNodeStep {
             + BuilderStep withSyncNode (<back:yellow>SyncEndpointClientSpi</back> endpoint)
             + BuilderStep withAsyncNode (<back:yellow>AsyncEndpointClientSpi</back> endpoint, int timeoutSeconds)

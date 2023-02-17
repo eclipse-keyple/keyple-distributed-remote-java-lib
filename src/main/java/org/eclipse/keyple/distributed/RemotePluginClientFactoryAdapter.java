@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemotePluginClientFactory}.
  *
  * @since 2.0.0
@@ -39,7 +38,6 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
   private final int asyncNodeClientTimeoutSeconds;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin to build.

@@ -12,7 +12,6 @@
 package org.eclipse.keyple.distributed;
 
 /**
- * (package-private)<br>
  * Abstract class of all {@link RemotePluginClient} adapters.
  *
  * @since 2.0.0
@@ -23,7 +22,6 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
   private String globalSessionId;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
@@ -34,7 +32,6 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
   }
 
   /**
-   * (package-private)<br>
    * Gets the global session ID value if is set.
    *
    * @return Null if no global session ID is set.

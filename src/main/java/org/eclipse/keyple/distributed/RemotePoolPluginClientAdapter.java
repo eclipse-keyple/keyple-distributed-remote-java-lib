@@ -15,7 +15,6 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemotePoolPluginSpi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
 
 /**
- * (package-private)<br>
  * Adapter of pool {@link RemotePluginClient}.
  *
  * @since 2.0.0
@@ -24,7 +23,6 @@ class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
     implements RemotePoolPluginSpi {
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.

@@ -14,6 +14,7 @@ package org.eclipse.keyple.distributed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
 import org.junit.BeforeClass;
@@ -31,13 +32,32 @@ public class RemotePluginServerFactoryBuilderTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void builder_whenRemotePluginNameIsNull_shouldThrowIAE() {
+  public void builder_1arg_whenRemotePluginNameIsNull_shouldThrowIAE() {
     RemotePluginServerFactoryBuilder.builder(null).withSyncNode().build();
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void builder_whenRemotePluginNameIsEmpty_shouldThrowIAE() {
+  public void builder_1arg_whenRemotePluginNameIsEmpty_shouldThrowIAE() {
     RemotePluginServerFactoryBuilder.builder("").withSyncNode().build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void builder_2args_whenRemotePluginNameIsNull_shouldThrowIAE() {
+    RemotePluginServerFactoryBuilder.builder(null, mock(ExecutorService.class))
+        .withSyncNode()
+        .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void builder_2args_whenRemotePluginNameIsEmpty_shouldThrowIAE() {
+    RemotePluginServerFactoryBuilder.builder("", mock(ExecutorService.class))
+        .withSyncNode()
+        .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void builder_2args_whenExecutorServiceIsNull_shouldThrowIAE() {
+    RemotePluginServerFactoryBuilder.builder(REMOTE_PLUGIN_NAME, null).withSyncNode().build();
   }
 
   @Test(expected = IllegalArgumentException.class)

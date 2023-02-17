@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.google.gson.JsonObject;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.distributed.remote.ObservableRemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
@@ -43,6 +44,8 @@ public class ObservableRemotePluginServerAdapterTest {
   static final String CMD_DATA = "CMD_DATA";
   static final MessageDto CMD_MSG =
       new MessageDto().setAction(MessageDto.Action.CMD.name()).setBody(CMD_DATA);
+
+  static final ExecutorService executorService = mock(ExecutorService.class);
 
   ObservableRemotePluginServerAdapter syncPlugin;
   RemotePluginApi syncRemotePluginApi;
@@ -142,7 +145,7 @@ public class ObservableRemotePluginServerAdapterTest {
     syncPlugin =
         (ObservableRemotePluginServerAdapter)
             ((RemotePluginFactorySpi)
-                    RemotePluginServerFactoryBuilder.builder(REMOTE_PLUGIN_NAME)
+                    RemotePluginServerFactoryBuilder.builder(REMOTE_PLUGIN_NAME, executorService)
                         .withSyncNode()
                         .build())
                 .getRemotePlugin();
@@ -160,7 +163,7 @@ public class ObservableRemotePluginServerAdapterTest {
     asyncPlugin =
         (ObservableRemotePluginServerAdapter)
             ((RemotePluginFactorySpi)
-                    RemotePluginServerFactoryBuilder.builder(REMOTE_PLUGIN_NAME)
+                    RemotePluginServerFactoryBuilder.builder(REMOTE_PLUGIN_NAME, executorService)
                         .withAsyncNode(asyncEndpointServerSpi)
                         .build())
                 .getRemotePlugin();
@@ -177,6 +180,12 @@ public class ObservableRemotePluginServerAdapterTest {
   public void getName_shouldReturnTheProvidedName() {
     assertThat(syncPlugin.getName()).isEqualTo(REMOTE_PLUGIN_NAME);
     assertThat(asyncPlugin.getName()).isEqualTo(REMOTE_PLUGIN_NAME);
+  }
+
+  @Test
+  public void getExecutorService_shouldReturnTheProvidedExecutorService() {
+    assertThat(syncPlugin.getExecutorService()).isEqualTo(executorService);
+    assertThat(asyncPlugin.getExecutorService()).isEqualTo(executorService);
   }
 
   @Test

@@ -14,7 +14,6 @@ package org.eclipse.keyple.distributed;
 import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemoteReaderSpi;
 
 /**
- * (package-private)<br>
  * Adapter of observable {@link RemoteReaderClient}.
  *
  * @since 2.0.0
@@ -23,7 +22,6 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
     implements ObservableRemoteReaderSpi {
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remoteReaderName The name of the remote reader.

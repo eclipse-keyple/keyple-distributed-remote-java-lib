@@ -16,7 +16,6 @@ import static org.eclipse.keyple.distributed.MessageDto.*;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
 
 /**
- * (package-private)<br>
  * Abstract class for all remote reader adapters.
  *
  * @since 2.0.0
@@ -30,7 +29,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   private final AbstractNodeAdapter node;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remoteReaderName The name of the remote reader.
@@ -54,7 +52,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   }
 
   /**
-   * (package-private)<br>
    * Gets the associated local reader name.
    *
    * @return A not empty string.
@@ -65,7 +62,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   }
 
   /**
-   * (package-private)<br>
    * Gets the associated session ID.
    *
    * @return Null if no session ID is set.
@@ -76,7 +72,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   }
 
   /**
-   * (package-private)<br>
    * Gets the associated client node ID.
    *
    * @return A not empty string.
@@ -87,7 +82,6 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   }
 
   /**
-   * (package-private)<br>
    * Gets the associated node.
    *
    * @return A not null reference.
