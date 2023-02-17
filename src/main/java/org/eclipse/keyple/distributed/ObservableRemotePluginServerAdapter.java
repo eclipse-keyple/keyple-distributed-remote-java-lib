@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.distributed.remote.ObservableRemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemotePluginSpi;
@@ -28,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemotePluginServer}.
  *
  * @since 2.0.0
@@ -39,20 +39,23 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   private static final Logger logger =
       LoggerFactory.getLogger(ObservableRemotePluginServerAdapter.class);
 
+  private final ExecutorService executorService;
   private final Map<String, RemoteReaderServerAdapter> readers;
 
   private ObservableRemotePluginApi observableRemotePluginApi;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
+   * @param executorService The custom service to be used to asynchronously notify remote reader
+   *     connection events.
    * @since 2.0.0
    */
-  ObservableRemotePluginServerAdapter(String remotePluginName) {
+  ObservableRemotePluginServerAdapter(String remotePluginName, ExecutorService executorService) {
     super(remotePluginName);
-    this.readers = new ConcurrentHashMap<String, RemoteReaderServerAdapter>();
+    this.executorService = executorService;
+    readers = new ConcurrentHashMap<String, RemoteReaderServerAdapter>();
   }
 
   /**
@@ -184,6 +187,16 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   @Override
   public void connect(ObservableRemotePluginApi observableRemotePluginApi) {
     this.observableRemotePluginApi = observableRemotePluginApi;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.1.0
+   */
+  @Override
+  public ExecutorService getExecutorService() {
+    return executorService;
   }
 
   /**

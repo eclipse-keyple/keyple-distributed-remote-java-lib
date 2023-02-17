@@ -14,7 +14,6 @@ package org.eclipse.keyple.distributed;
 import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 
 /**
- * (package-private)<br>
  * Abstract class for all remote plugin adapters.
  *
  * @since 2.0.0
@@ -25,7 +24,6 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
   private final String remotePluginName;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
@@ -46,7 +44,6 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
   }
 
   /**
-   * (package-private)<br>
    * Executes remotely the provided JSON data command using the provided session ID.
    *
    * @param jsonData The JSON data to send.

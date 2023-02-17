@@ -16,7 +16,6 @@ import org.eclipse.keyple.core.distributed.remote.DistributedRemoteApiProperties
 import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
 
 /**
- * (package-private)<br>
  * Abstract class of all remote plugin factory adapters.
  *
  * @since 2.0.0
@@ -26,7 +25,6 @@ abstract class AbstractRemotePluginFactoryAdapter implements RemotePluginFactory
   private final String remotePluginName;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin to build.

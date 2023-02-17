@@ -12,7 +12,6 @@
 package org.eclipse.keyple.distributed;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemoteReaderClient}.
  *
  * @since 2.0.0
@@ -20,7 +19,6 @@ package org.eclipse.keyple.distributed;
 class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements RemoteReaderClient {
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remoteReaderName The name of the remote reader.

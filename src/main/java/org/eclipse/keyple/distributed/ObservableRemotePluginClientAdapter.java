@@ -13,11 +13,11 @@ package org.eclipse.keyple.distributed;
 
 import static org.eclipse.keyple.distributed.MessageDto.Action;
 
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.distributed.remote.ObservableRemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.spi.ObservableRemotePluginSpi;
 
 /**
- * (package-private)<br>
  * Adapter of an observable {@link RemotePluginClient}.
  *
  * @since 2.0.0
@@ -28,7 +28,6 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   private ObservableRemotePluginApi observableRemotePluginApi;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
@@ -47,6 +46,16 @@ final class ObservableRemotePluginClientAdapter extends RemotePluginClientAdapte
   @Override
   public void connect(ObservableRemotePluginApi observableRemotePluginApi) {
     this.observableRemotePluginApi = observableRemotePluginApi;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.1.0
+   */
+  @Override
+  public ExecutorService getExecutorService() {
+    return null; // Not applicable
   }
 
   /**

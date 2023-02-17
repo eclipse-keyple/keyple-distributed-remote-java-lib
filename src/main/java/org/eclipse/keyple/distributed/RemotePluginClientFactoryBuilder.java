@@ -25,10 +25,7 @@ import org.eclipse.keyple.distributed.spi.SyncEndpointClientSpi;
  */
 public final class RemotePluginClientFactoryBuilder {
 
-  /**
-   * (private)<br>
-   * Constructor
-   */
+  /** Constructor */
   private RemotePluginClientFactoryBuilder() {}
 
   /**
@@ -210,10 +207,7 @@ public final class RemotePluginClientFactoryBuilder {
     RemotePluginClientFactory build();
   }
 
-  /**
-   * (private)<br>
-   * The internal step builder.
-   */
+  /** The internal step builder. */
   private static final class Builder
       implements NodeStep,
           SyncNodePluginStep,

@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemoteReaderServer}.
  *
  * @since 2.0.0
@@ -33,7 +32,6 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   private final String inputDataJson;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remoteReaderName The name of the remote reader.

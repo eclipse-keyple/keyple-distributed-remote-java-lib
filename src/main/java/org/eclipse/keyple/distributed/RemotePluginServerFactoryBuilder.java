@@ -11,6 +11,7 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
+import java.util.concurrent.ExecutorService;
 import org.eclipse.keyple.core.util.Assert;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
 
@@ -21,10 +22,7 @@ import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
  */
 public final class RemotePluginServerFactoryBuilder {
 
-  /**
-   * (private)<br>
-   * Constructor
-   */
+  /** Constructor */
   private RemotePluginServerFactoryBuilder() {}
 
   /**
@@ -37,6 +35,21 @@ public final class RemotePluginServerFactoryBuilder {
    */
   public static NodeStep builder(String remotePluginName) {
     return new Builder(remotePluginName);
+  }
+
+  /**
+   * Gets the first step of the builder to use in order to create a new factory instance.
+   *
+   * @param remotePluginName The identifier of the remote plugin.
+   * @param executorService The custom service to be used to asynchronously notify remote reader
+   *     connection events.
+   * @return Next configuration step.
+   * @throws IllegalArgumentException If the plugin name is null or empty or if the executor service
+   *     is null.
+   * @since 2.1.0
+   */
+  public static NodeStep builder(String remotePluginName, ExecutorService executorService) {
+    return new Builder(remotePluginName, executorService);
   }
 
   /**
@@ -81,18 +94,25 @@ public final class RemotePluginServerFactoryBuilder {
     RemotePluginServerFactory build();
   }
 
-  /**
-   * (private)<br>
-   * The internal step builder.
-   */
+  /** The internal step builder. */
   private static final class Builder implements NodeStep, BuilderStep {
 
     private final String remotePluginName;
+    private final ExecutorService executorService;
     private AsyncEndpointServerSpi asyncEndpoint;
 
-    private Builder(String remotePluginName) {
+    public Builder(String remotePluginName) {
       Assert.getInstance().notEmpty(remotePluginName, "remotePluginName");
       this.remotePluginName = remotePluginName;
+      this.executorService = null;
+    }
+
+    private Builder(String remotePluginName, ExecutorService executorService) {
+      Assert.getInstance()
+          .notEmpty(remotePluginName, "remotePluginName")
+          .notNull(executorService, "executorService");
+      this.remotePluginName = remotePluginName;
+      this.executorService = executorService;
     }
 
     /**
@@ -124,7 +144,7 @@ public final class RemotePluginServerFactoryBuilder {
      */
     @Override
     public RemotePluginServerFactory build() {
-      return new RemotePluginServerFactoryAdapter(remotePluginName, asyncEndpoint);
+      return new RemotePluginServerFactoryAdapter(remotePluginName, executorService, asyncEndpoint);
     }
   }
 }

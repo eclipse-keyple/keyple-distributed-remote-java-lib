@@ -19,7 +19,6 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginSpi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
 
 /**
- * (package-private)<br>
  * Adapter of {@link RemotePluginClient}.
  *
  * @since 2.0.0
@@ -32,7 +31,6 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
   private RemotePluginApi remotePluginApi;
 
   /**
-   * (package-private)<br>
    * Constructor.
    *
    * @param remotePluginName The name of the remote plugin.
