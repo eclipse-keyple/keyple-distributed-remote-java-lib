@@ -94,8 +94,9 @@ public class ObservableRemotePluginServerAdapterTest {
 
     // Initial card content
     if (initialCardContent != null) {
-      body.addProperty(
-          MessageDto.JsonProperty.INITIAL_CARD_CONTENT.name(), JsonUtil.toJson(initialCardContent));
+      body.add(
+          MessageDto.JsonProperty.INITIAL_CARD_CONTENT.name(),
+          JsonUtil.getParser().toJsonTree(initialCardContent));
       body.addProperty(
           MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name(),
           initialCardContent.getClass().getName());
@@ -103,7 +104,8 @@ public class ObservableRemotePluginServerAdapterTest {
 
     // Input data
     if (inputData != null) {
-      body.addProperty(MessageDto.JsonProperty.INPUT_DATA.name(), JsonUtil.toJson(inputData));
+      body.add(
+          MessageDto.JsonProperty.INPUT_DATA.name(), JsonUtil.getParser().toJsonTree(inputData));
     }
 
     return new MessageDto()

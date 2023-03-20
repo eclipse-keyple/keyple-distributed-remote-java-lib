@@ -113,7 +113,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Build the message
     JsonObject body = new JsonObject();
-    body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.toJson(outputData));
+    body.add(JsonProperty.OUTPUT_DATA.name(), JsonUtil.getParser().toJsonTree(outputData));
 
     MessageDto message =
         new MessageDto()
@@ -241,7 +241,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     String initialCardContent = null;
     String initialCardContentClassName = null;
     if (body.has(JsonProperty.INITIAL_CARD_CONTENT.name())) {
-      initialCardContent = body.get(JsonProperty.INITIAL_CARD_CONTENT.name()).getAsString();
+      initialCardContent =
+          body.getAsJsonObject(JsonProperty.INITIAL_CARD_CONTENT.name()).toString();
       initialCardContentClassName =
           body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name()).getAsString();
     }
@@ -249,7 +250,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     // Input data
     String inputData =
         body.has(JsonProperty.INPUT_DATA.name())
-            ? body.get(JsonProperty.INPUT_DATA.name()).getAsString()
+            ? body.getAsJsonObject(JsonProperty.INPUT_DATA.name()).toString()
             : null;
 
     // Other fields
