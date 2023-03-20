@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-**CAUTION**: this version requires to use at least version `2.2.0` of the
+:warning: **CAUTION**: this version requires to use at least version `2.2.0` of the
 [Keyple Distributed Local Library](https://keyple.org/components-java/distributed/keyple-distributed-local-java-lib/)!
 ### Changed
 - Initial card content and user input/output data used for "ReaderClientSide" mode are now serialized/de-serialized
