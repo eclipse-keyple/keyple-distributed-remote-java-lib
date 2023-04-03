@@ -90,22 +90,22 @@ public class ObservableRemotePluginServerAdapterTest {
     JsonObject body = new JsonObject();
 
     // Service ID
-    body.addProperty(MessageDto.JsonProperty.SERVICE_ID.name(), SERVICE_ID);
+    body.addProperty(MessageDto.JsonProperty.SERVICE_ID.getKey(), SERVICE_ID);
 
     // Initial card content
     if (initialCardContent != null) {
       body.add(
-          MessageDto.JsonProperty.INITIAL_CARD_CONTENT.name(),
+          MessageDto.JsonProperty.INITIAL_CARD_CONTENT.getKey(),
           JsonUtil.getParser().toJsonTree(initialCardContent));
       body.addProperty(
-          MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name(),
+          MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey(),
           initialCardContent.getClass().getName());
     }
 
     // Input data
     if (inputData != null) {
       body.add(
-          MessageDto.JsonProperty.INPUT_DATA.name(), JsonUtil.getParser().toJsonTree(inputData));
+          MessageDto.JsonProperty.INPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(inputData));
     }
 
     return new MessageDto()

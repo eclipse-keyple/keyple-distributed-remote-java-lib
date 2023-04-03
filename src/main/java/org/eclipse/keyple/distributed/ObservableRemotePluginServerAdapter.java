@@ -113,7 +113,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Build the message
     JsonObject body = new JsonObject();
-    body.add(JsonProperty.OUTPUT_DATA.name(), JsonUtil.getParser().toJsonTree(outputData));
+    body.add(JsonProperty.OUTPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(outputData));
 
     MessageDto message =
         new MessageDto()
@@ -235,22 +235,22 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     JsonObject body = JsonUtil.getParser().fromJson(message.getBody(), JsonObject.class);
 
     // Service ID
-    String serviceId = body.get(JsonProperty.SERVICE_ID.name()).getAsString();
+    String serviceId = body.get(JsonProperty.SERVICE_ID.getKey()).getAsString();
 
     // Initial card content
     String initialCardContent = null;
     String initialCardContentClassName = null;
-    if (body.has(JsonProperty.INITIAL_CARD_CONTENT.name())) {
+    if (body.has(JsonProperty.INITIAL_CARD_CONTENT.getKey())) {
       initialCardContent =
-          body.getAsJsonObject(JsonProperty.INITIAL_CARD_CONTENT.name()).toString();
+          body.getAsJsonObject(JsonProperty.INITIAL_CARD_CONTENT.getKey()).toString();
       initialCardContentClassName =
-          body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name()).getAsString();
+          body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey()).getAsString();
     }
 
     // Input data
     String inputData =
-        body.has(JsonProperty.INPUT_DATA.name())
-            ? body.getAsJsonObject(JsonProperty.INPUT_DATA.name()).toString()
+        body.has(JsonProperty.INPUT_DATA.getKey())
+            ? body.getAsJsonObject(JsonProperty.INPUT_DATA.getKey()).toString()
             : null;
 
     // Other fields
