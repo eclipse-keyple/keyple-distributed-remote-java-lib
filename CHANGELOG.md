@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Backward compatibility of the Distributed API in order to be able to work on the server side with clients using
+  versions of the "Keyple Distributed Local Library" lower than `2.2.0`.
 
 ## [2.2.0] - 2023-04-04
 :warning: **CAUTION**: this version requires to use at least version `2.2.0` of the

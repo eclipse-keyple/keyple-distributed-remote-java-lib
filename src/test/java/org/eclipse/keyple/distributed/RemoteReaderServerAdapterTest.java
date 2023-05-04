@@ -115,7 +115,8 @@ public class RemoteReaderServerAdapterTest {
             SERVICE_ID,
             initialCardContentJson,
             initialCardContentClassName,
-            inputDataJson);
+            inputDataJson,
+            false);
   }
 
   private void initSimpleReader() {

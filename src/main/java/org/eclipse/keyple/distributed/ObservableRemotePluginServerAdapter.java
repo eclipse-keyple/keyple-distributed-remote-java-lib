@@ -113,7 +113,11 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Build the message
     JsonObject body = new JsonObject();
-    body.add(JsonProperty.OUTPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(outputData));
+    if (reader.isLegacyMode()) {
+      body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.toJson(outputData));
+    } else {
+      body.add(JsonProperty.OUTPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(outputData));
+    }
 
     MessageDto message =
         new MessageDto()
@@ -234,24 +238,41 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     // Creates a remote reader based on the incoming message.
     JsonObject body = JsonUtil.getParser().fromJson(message.getBody(), JsonObject.class);
 
-    // Service ID
-    String serviceId = body.get(JsonProperty.SERVICE_ID.getKey()).getAsString();
+    boolean isLegacyMode = body.has(JsonProperty.SERVICE_ID.name());
 
-    // Initial card content
+    String serviceId;
     String initialCardContent = null;
     String initialCardContentClassName = null;
-    if (body.has(JsonProperty.INITIAL_CARD_CONTENT.getKey())) {
-      initialCardContent =
-          body.getAsJsonObject(JsonProperty.INITIAL_CARD_CONTENT.getKey()).toString();
-      initialCardContentClassName =
-          body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey()).getAsString();
-    }
+    String inputData = null;
 
-    // Input data
-    String inputData =
-        body.has(JsonProperty.INPUT_DATA.getKey())
-            ? body.getAsJsonObject(JsonProperty.INPUT_DATA.getKey()).toString()
-            : null;
+    if (isLegacyMode) {
+      // Service ID
+      serviceId = body.get(JsonProperty.SERVICE_ID.name()).getAsString();
+      // Initial card content
+      if (body.has(JsonProperty.INITIAL_CARD_CONTENT.name())) {
+        initialCardContent = body.get(JsonProperty.INITIAL_CARD_CONTENT.name()).getAsString();
+        initialCardContentClassName =
+            body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name()).getAsString();
+      }
+      // Input data
+      if (body.has(JsonProperty.INPUT_DATA.name())) {
+        inputData = body.get(JsonProperty.INPUT_DATA.name()).getAsString();
+      }
+    } else {
+      // Service ID
+      serviceId = body.get(JsonProperty.SERVICE_ID.getKey()).getAsString();
+      // Initial card content
+      if (body.has(JsonProperty.INITIAL_CARD_CONTENT.getKey())) {
+        initialCardContent =
+            body.getAsJsonObject(JsonProperty.INITIAL_CARD_CONTENT.getKey()).toString();
+        initialCardContentClassName =
+            body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey()).getAsString();
+      }
+      // Input data
+      if (body.has(JsonProperty.INPUT_DATA.getKey())) {
+        inputData = body.getAsJsonObject(JsonProperty.INPUT_DATA.getKey()).toString();
+      }
+    }
 
     // Other fields
     String remoteReaderName = UUID.randomUUID().toString();
@@ -276,7 +297,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
             serviceId,
             initialCardContent,
             initialCardContentClassName,
-            inputData);
+            inputData,
+            isLegacyMode);
 
     // Add the new remote reader to the readers map.
     readers.put(remoteReader.getName(), remoteReader);
