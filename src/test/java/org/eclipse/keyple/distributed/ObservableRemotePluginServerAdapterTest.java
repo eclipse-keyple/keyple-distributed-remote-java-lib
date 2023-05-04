@@ -83,29 +83,49 @@ public class ObservableRemotePluginServerAdapterTest {
    *
    * @param initialCardContent The initial card content if needed.
    * @param inputData The additional information if needed.
+   * @param isLegacyMode True if the communication is in legacy mode.
    * @return A not null reference.
    */
-  private MessageDto buildMessage(Object initialCardContent, Object inputData) {
+  private MessageDto buildMessage(
+      Object initialCardContent, Object inputData, boolean isLegacyMode) {
 
     JsonObject body = new JsonObject();
 
     // Service ID
-    body.addProperty(MessageDto.JsonProperty.SERVICE_ID.getKey(), SERVICE_ID);
+    if (isLegacyMode) {
+      body.addProperty(MessageDto.JsonProperty.SERVICE_ID.name(), SERVICE_ID);
+    } else {
+      body.addProperty(MessageDto.JsonProperty.SERVICE_ID.getKey(), SERVICE_ID);
+    }
 
     // Initial card content
     if (initialCardContent != null) {
-      body.add(
-          MessageDto.JsonProperty.INITIAL_CARD_CONTENT.getKey(),
-          JsonUtil.getParser().toJsonTree(initialCardContent));
-      body.addProperty(
-          MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey(),
-          initialCardContent.getClass().getName());
+      if (isLegacyMode) {
+        body.addProperty(
+            MessageDto.JsonProperty.INITIAL_CARD_CONTENT.name(),
+            JsonUtil.toJson(initialCardContent));
+        body.addProperty(
+            MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name(),
+            initialCardContent.getClass().getName());
+      } else {
+        body.add(
+            MessageDto.JsonProperty.INITIAL_CARD_CONTENT.getKey(),
+            JsonUtil.getParser().toJsonTree(initialCardContent));
+        body.addProperty(
+            MessageDto.JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.getKey(),
+            initialCardContent.getClass().getName());
+      }
     }
 
     // Input data
     if (inputData != null) {
-      body.add(
-          MessageDto.JsonProperty.INPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(inputData));
+      if (isLegacyMode) {
+        body.addProperty(MessageDto.JsonProperty.INPUT_DATA.name(), JsonUtil.toJson(inputData));
+      } else {
+        body.add(
+            MessageDto.JsonProperty.INPUT_DATA.getKey(),
+            JsonUtil.getParser().toJsonTree(inputData));
+      }
     }
 
     return new MessageDto()
@@ -293,13 +313,13 @@ public class ObservableRemotePluginServerAdapterTest {
   @Test
   public void
       onMessage_whenNoCardContentAndInputDataAreProvided_shouldCreateARemoteReaderAndInvokeTheApi() {
-    syncPlugin.onMessage(buildMessage(null, null));
+    syncPlugin.onMessage(buildMessage(null, null, false));
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
                 getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, false)));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
-    asyncPlugin.onMessage(buildMessage(null, null));
+    asyncPlugin.onMessage(buildMessage(null, null, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
@@ -309,13 +329,13 @@ public class ObservableRemotePluginServerAdapterTest {
 
   @Test
   public void onMessage_whenNoCardContentIsProvided_shouldCreateARemoteReaderAndInvokeTheApi() {
-    syncPlugin.onMessage(buildMessage(null, INPUT_DATA));
+    syncPlugin.onMessage(buildMessage(null, INPUT_DATA, false));
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
                 getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, true)));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
-    asyncPlugin.onMessage(buildMessage(null, INPUT_DATA));
+    asyncPlugin.onMessage(buildMessage(null, INPUT_DATA, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
@@ -325,13 +345,13 @@ public class ObservableRemotePluginServerAdapterTest {
 
   @Test
   public void onMessage_whenNoInputDataIsProvided_shouldCreateARemoteReaderAndInvokeTheApi() {
-    syncPlugin.onMessage(buildMessage(CARD_CONTENT, null));
+    syncPlugin.onMessage(buildMessage(CARD_CONTENT, null, false));
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
                 getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, false)));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
-    asyncPlugin.onMessage(buildMessage(CARD_CONTENT, null));
+    asyncPlugin.onMessage(buildMessage(CARD_CONTENT, null, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
@@ -341,13 +361,30 @@ public class ObservableRemotePluginServerAdapterTest {
 
   @Test
   public void onMessage_whenAllInfoAreProvided_shouldCreateARemoteReaderAndInvokeTheApi() {
-    syncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA));
+    syncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, false));
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
                 getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
-    asyncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA));
+    asyncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, false));
+    verify(asyncObservableRemotePluginApi)
+        .addRemoteReader(
+            ArgumentMatchers.argThat(
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, true)));
+    verifyNoMoreInteractions(asyncObservableRemotePluginApi);
+  }
+
+  @Test
+  public void
+      onMessage_whenAllInfoAreProvidedAndLegacyMode_shouldCreateARemoteReaderAndInvokeTheApi() {
+    syncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, true));
+    verify(syncObservableRemotePluginApi)
+        .addRemoteReader(
+            ArgumentMatchers.argThat(
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)));
+    verifyNoMoreInteractions(syncObservableRemotePluginApi);
+    asyncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, true));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(

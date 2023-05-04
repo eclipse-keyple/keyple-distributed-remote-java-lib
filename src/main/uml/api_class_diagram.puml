@@ -1,6 +1,6 @@
 @startuml
 title
-    Keyple - keyple-distributed-remote-java-lib - 2.1.+ (2023-02-17)
+    Keyple - keyple-distributed-remote-java-lib - 2.2.+ (2023-05-04)
 end title
 
 ' == THEME ==
@@ -93,7 +93,7 @@ package "org.eclipse.keyple.distributed" as root {
     together {
         +class "**final** RemotePluginServerFactoryBuilder" as RemotePluginServerFactoryBuilder {
             + {static} NodeStep builder (String remotePluginName)
-            + <color:green>{static} NodeStep builder (String remotePluginName, ExecutorService executorService)
+            + {static} NodeStep builder (String remotePluginName, ExecutorService executorService)
         }
         note top: Builds on __Server__ a factory of **ObservablePlugin**
         +interface "NodeStep" as RemotePluginServerFactoryNodeStep {
@@ -176,26 +176,26 @@ RemotePoolPluginClientFactoryBuilderStep ..> RemotePluginClientFactory #C_LINK :
 
 package root #C_GREY1 {}
 
-interface RemotePluginServerFactory <<green>>
-interface RemotePluginServer <<green>>
-interface RemoteReaderServer <<green>>
-class RemotePluginServerFactoryBuilder <<green>>
-interface RemotePluginServerFactoryNodeStep <<green>>
-interface RemotePluginServerFactoryBuilderStep <<green>>
+interface root.RemotePluginServerFactory <<green>>
+interface root.RemotePluginServer <<green>>
+interface root.RemoteReaderServer <<green>>
+class root.RemotePluginServerFactoryBuilder <<green>>
+interface root.RemotePluginServerFactoryNodeStep <<green>>
+interface root.RemotePluginServerFactoryBuilderStep <<green>>
 
-interface RemotePluginClientFactory <<purple>>
-interface RemotePluginClient <<purple>>
-interface RemoteReaderClient <<purple>>
-class RemotePluginClientFactoryBuilder <<purple>>
-interface RemotePluginClientFactoryNodeStep <<purple>>
-interface RemotePluginClientFactorySyncNodePluginStep <<purple>>
-interface RemotePluginClientFactoryServerPushPluginEventStrategyStep <<purple>>
-interface RemotePluginClientFactorySyncNodeReaderStep <<purple>>
-interface RemotePluginClientFactoryServerPushReaderEventStrategyStep <<purple>>
-interface RemotePluginClientFactoryBuilderStep <<purple>>
+interface root.RemotePluginClientFactory <<purple>>
+interface root.RemotePluginClient <<purple>>
+interface root.RemoteReaderClient <<purple>>
+class root.RemotePluginClientFactoryBuilder <<purple>>
+interface root.RemotePluginClientFactoryNodeStep <<purple>>
+interface root.RemotePluginClientFactorySyncNodePluginStep <<purple>>
+interface root.RemotePluginClientFactoryServerPushPluginEventStrategyStep <<purple>>
+interface root.RemotePluginClientFactorySyncNodeReaderStep <<purple>>
+interface root.RemotePluginClientFactoryServerPushReaderEventStrategyStep <<purple>>
+interface root.RemotePluginClientFactoryBuilderStep <<purple>>
 
-class RemotePoolPluginClientFactoryBuilder <<purple>>
-interface RemotePoolPluginClientFactoryNodeStep <<purple>>
-interface RemotePoolPluginClientFactoryBuilderStep <<purple>>
+class root.RemotePoolPluginClientFactoryBuilder <<purple>>
+interface root.RemotePoolPluginClientFactoryNodeStep <<purple>>
+interface root.RemotePoolPluginClientFactoryBuilderStep <<purple>>
 
 @enduml
