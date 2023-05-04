@@ -33,7 +33,8 @@ It follows the extraction of Keyple 1.0 components contained in the `eclipse/key
 repositories.
 It also brings many major API changes.
 
-[unreleased]: https://github.com/eclipse/keyple-distributed-remote-java-lib/compare/2.1.0...HEAD
+[unreleased]: https://github.com/eclipse/keyple-distributed-remote-java-lib/compare/2.2.0...HEAD
+[2.2.0]: https://github.com/eclipse/keyple-distributed-remote-java-lib/compare/2.1.0...2.2.0
 [2.1.0]: https://github.com/eclipse/keyple-distributed-remote-java-lib/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/eclipse/keyple-distributed-remote-java-lib/releases/tag/2.0.0
 
