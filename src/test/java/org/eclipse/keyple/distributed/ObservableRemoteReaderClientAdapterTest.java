@@ -23,6 +23,7 @@ import org.mockito.ArgumentMatchers;
 
 public class ObservableRemoteReaderClientAdapterTest {
 
+  static final int CLIENT_CORE_API_LEVEL = 2;
   private static final String REMOTE_READER_NAME = "REMOTE_READER_NAME";
   private static final String LOCAL_READER_NAME = "LOCAL_READER_NAME";
   private static final String SESSION_ID = "SESSION_ID";
@@ -109,7 +110,12 @@ public class ObservableRemoteReaderClientAdapterTest {
 
     reader =
         new ObservableRemoteReaderClientAdapter(
-            REMOTE_READER_NAME, LOCAL_READER_NAME, SESSION_ID, CLIENT_NODE_ID, node);
+            CLIENT_CORE_API_LEVEL,
+            REMOTE_READER_NAME,
+            LOCAL_READER_NAME,
+            SESSION_ID,
+            CLIENT_NODE_ID,
+            node);
   }
 
   @Test

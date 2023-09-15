@@ -113,14 +113,18 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Build the message
     JsonObject body = new JsonObject();
-    if (reader.isLegacyMode()) {
-      body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.toJson(outputData));
-    } else {
+    if (reader.getClientCoreApiLevel() != 0) {
+      body.addProperty(JsonProperty.CORE_API_LEVEL.getKey(), reader.getClientCoreApiLevel());
+    }
+    if (reader.getClientDistributedApiLevel() != 0) {
       body.add(JsonProperty.OUTPUT_DATA.getKey(), JsonUtil.getParser().toJsonTree(outputData));
+    } else {
+      body.addProperty(JsonProperty.OUTPUT_DATA.name(), JsonUtil.toJson(outputData));
     }
 
     MessageDto message =
         new MessageDto()
+            .setApiLevel(reader.getClientDistributedApiLevel())
             .setAction(Action.END_REMOTE_SERVICE.name())
             .setRemoteReaderName(remoteReaderName)
             .setSessionId(reader.getSessionId())
@@ -238,27 +242,32 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     // Creates a remote reader based on the incoming message.
     JsonObject body = JsonUtil.getParser().fromJson(message.getBody(), JsonObject.class);
 
-    boolean isLegacyMode = body.has(JsonProperty.SERVICE_ID.name());
+    // The API level is retrieved from the wrapper, as the body content has been created by the
+    // Distributed client layer.
+    int clientDistributedApiLevel;
+    if (message.getApiLevel() != 0) {
+      clientDistributedApiLevel = message.getApiLevel();
+    } else if (body.has(JsonProperty.SERVICE_ID.getKey())) {
+      clientDistributedApiLevel = 1;
+    } else {
+      clientDistributedApiLevel = 0;
+    }
+
+    // In this particular case, the API level contained in the body does not reflect the version of
+    // the body, but that of the Core client layer.
+    int clientCoreApiLevel;
+    if (body.has(JsonProperty.CORE_API_LEVEL.getKey())) {
+      clientCoreApiLevel = body.get(JsonProperty.CORE_API_LEVEL.getKey()).getAsInt();
+    } else {
+      clientCoreApiLevel = -1; // Unknown at this step
+    }
 
     String serviceId;
     String initialCardContent = null;
     String initialCardContentClassName = null;
     String inputData = null;
 
-    if (isLegacyMode) {
-      // Service ID
-      serviceId = body.get(JsonProperty.SERVICE_ID.name()).getAsString();
-      // Initial card content
-      if (body.has(JsonProperty.INITIAL_CARD_CONTENT.name())) {
-        initialCardContent = body.get(JsonProperty.INITIAL_CARD_CONTENT.name()).getAsString();
-        initialCardContentClassName =
-            body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name()).getAsString();
-      }
-      // Input data
-      if (body.has(JsonProperty.INPUT_DATA.name())) {
-        inputData = body.get(JsonProperty.INPUT_DATA.name()).getAsString();
-      }
-    } else {
+    if (clientDistributedApiLevel != 0) {
       // Service ID
       serviceId = body.get(JsonProperty.SERVICE_ID.getKey()).getAsString();
       // Initial card content
@@ -271,6 +280,19 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
       // Input data
       if (body.has(JsonProperty.INPUT_DATA.getKey())) {
         inputData = body.getAsJsonObject(JsonProperty.INPUT_DATA.getKey()).toString();
+      }
+    } else {
+      // Service ID
+      serviceId = body.get(JsonProperty.SERVICE_ID.name()).getAsString();
+      // Initial card content
+      if (body.has(JsonProperty.INITIAL_CARD_CONTENT.name())) {
+        initialCardContent = body.get(JsonProperty.INITIAL_CARD_CONTENT.name()).getAsString();
+        initialCardContentClassName =
+            body.get(JsonProperty.INITIAL_CARD_CONTENT_CLASS_NAME.name()).getAsString();
+      }
+      // Input data
+      if (body.has(JsonProperty.INPUT_DATA.name())) {
+        inputData = body.get(JsonProperty.INPUT_DATA.name()).getAsString();
       }
     }
 
@@ -289,6 +311,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     RemoteReaderServerAdapter remoteReader =
         new RemoteReaderServerAdapter(
+            clientDistributedApiLevel,
+            clientCoreApiLevel,
             remoteReaderName,
             message.getLocalReaderName(),
             message.getSessionId(),
@@ -297,13 +321,12 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
             serviceId,
             initialCardContent,
             initialCardContentClassName,
-            inputData,
-            isLegacyMode);
+            inputData);
 
     // Add the new remote reader to the readers map.
     readers.put(remoteReader.getName(), remoteReader);
 
     // Register the remote reader and notify observers.
-    observableRemotePluginApi.addRemoteReader(remoteReader);
+    observableRemotePluginApi.addRemoteReader(remoteReader, clientCoreApiLevel);
   }
 }

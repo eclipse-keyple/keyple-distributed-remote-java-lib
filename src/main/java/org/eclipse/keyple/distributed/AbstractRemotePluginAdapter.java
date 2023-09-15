@@ -44,6 +44,17 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
   }
 
   /**
+   * {@inheritDoc}
+   *
+   * @since 2.3.0
+   */
+  @Override
+  public final int exchangeApiLevel(int coreApiLevel) {
+    setCoreApiLevel(coreApiLevel);
+    return MessageDto.API_LEVEL;
+  }
+
+  /**
    * Executes remotely the provided JSON data command using the provided session ID.
    *
    * @param jsonData The JSON data to send.
@@ -64,7 +75,7 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
     // Send the message as a request.
     MessageDto response = getNode().sendRequest(message);
 
-    // Check if the result is an error raised by the distributed layer.
+    // Check if the result is an error raised by the Distributed layer.
     AbstractMessageHandlerAdapter.checkError(response);
 
     // Return the body content.

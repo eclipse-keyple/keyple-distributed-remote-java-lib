@@ -21,6 +21,7 @@ class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements R
   /**
    * Constructor.
    *
+   * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -29,11 +30,19 @@ class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements R
    * @since 2.0.0
    */
   RemoteReaderClientAdapter(
+      int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
       String clientNodeId,
       AbstractNodeAdapter node) {
-    super(remoteReaderName, localReaderName, sessionId, clientNodeId, node);
+    super(
+        MessageDto.API_LEVEL,
+        clientCoreApiLevel,
+        remoteReaderName,
+        localReaderName,
+        sessionId,
+        clientNodeId,
+        node);
   }
 }

@@ -30,11 +30,12 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
   private final String initialCardContentJson;
   private final String initialCardContentClassName;
   private final String inputDataJson;
-  private final boolean isLegacyMode;
 
   /**
    * Constructor.
    *
+   * @param clientDistributedApiLevel The API level of the client Distributed layer.
+   * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -44,11 +45,11 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @param initialCardContentJson The optional initial card content as a JSON string.
    * @param initialCardContentClassName The class name of the optional initial card content.
    * @param inputDataJson The optional input data as a JSON string.
-   * @param isLegacyMode True if the communication with the associated local reader should be made
-   *     in legacy mode.
    * @since 2.0.0
    */
   RemoteReaderServerAdapter( // NOSONAR
+      int clientDistributedApiLevel,
+      int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
@@ -57,14 +58,19 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
       String serviceId,
       String initialCardContentJson,
       String initialCardContentClassName,
-      String inputDataJson,
-      boolean isLegacyMode) {
-    super(remoteReaderName, localReaderName, sessionId, clientNodeId, node);
+      String inputDataJson) {
+    super(
+        clientDistributedApiLevel,
+        clientCoreApiLevel,
+        remoteReaderName,
+        localReaderName,
+        sessionId,
+        clientNodeId,
+        node);
     this.serviceId = serviceId;
     this.initialCardContentJson = initialCardContentJson;
     this.initialCardContentClassName = initialCardContentClassName;
     this.inputDataJson = inputDataJson;
-    this.isLegacyMode = isLegacyMode;
   }
 
   /**
@@ -106,14 +112,5 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
     return inputDataJson != null
         ? JsonUtil.getParser().fromJson(inputDataJson, inputDataClass)
         : null;
-  }
-
-  /**
-   * @return True if the communication with the associated local reader should be made in legacy
-   *     mode.
-   * @since 2.2.1
-   */
-  boolean isLegacyMode() {
-    return isLegacyMode;
   }
 }

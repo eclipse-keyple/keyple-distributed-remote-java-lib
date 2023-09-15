@@ -56,6 +56,7 @@ public class ObservableRemotePluginServerAdapterTest {
   ObservableRemotePluginApi asyncObservableRemotePluginApi;
   AsyncEndpointServerSpi asyncEndpointServerSpi;
 
+  static final int CLIENT_CORE_API_LEVEL = 2;
   static final String SERVICE_ID = "SERVICE_ID";
   static final CardContent CARD_CONTENT = new CardContent(CONTENT);
   static final InputData INPUT_DATA = new InputData(DATA_IN);
@@ -90,6 +91,11 @@ public class ObservableRemotePluginServerAdapterTest {
       Object initialCardContent, Object inputData, boolean isLegacyMode) {
 
     JsonObject body = new JsonObject();
+
+    // Client Core API level
+    if (!isLegacyMode) {
+      body.addProperty(MessageDto.JsonProperty.CORE_API_LEVEL.getKey(), CLIENT_CORE_API_LEVEL);
+    }
 
     // Service ID
     if (isLegacyMode) {
@@ -129,6 +135,7 @@ public class ObservableRemotePluginServerAdapterTest {
     }
 
     return new MessageDto()
+        .setApiLevel(isLegacyMode ? 0 : MessageDto.API_LEVEL)
         .setAction(MessageDto.Action.EXECUTE_REMOTE_SERVICE.name())
         .setSessionId(SESSION_ID)
         .setClientNodeId(CLIENT_NODE_ID)
@@ -317,13 +324,15 @@ public class ObservableRemotePluginServerAdapterTest {
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, false)));
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, false)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(buildMessage(null, null, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), false, false)));
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), false, false)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
 
@@ -333,13 +342,15 @@ public class ObservableRemotePluginServerAdapterTest {
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, true)));
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), false, true)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(buildMessage(null, INPUT_DATA, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), false, true)));
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), false, true)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
 
@@ -349,13 +360,15 @@ public class ObservableRemotePluginServerAdapterTest {
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, false)));
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, false)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(buildMessage(CARD_CONTENT, null, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, false)));
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, false)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
 
@@ -365,13 +378,15 @@ public class ObservableRemotePluginServerAdapterTest {
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)));
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, false));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, true)));
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, true)),
+            eq(CLIENT_CORE_API_LEVEL));
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
 
@@ -382,13 +397,15 @@ public class ObservableRemotePluginServerAdapterTest {
     verify(syncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)));
+                getRemoteReaderServerAdapterMatcher(syncPlugin.getNode(), true, true)),
+            eq(-1));
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(buildMessage(CARD_CONTENT, INPUT_DATA, true));
     verify(asyncObservableRemotePluginApi)
         .addRemoteReader(
             ArgumentMatchers.argThat(
-                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, true)));
+                getRemoteReaderServerAdapterMatcher(asyncPlugin.getNode(), true, true)),
+            eq(-1));
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
 }

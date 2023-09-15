@@ -24,6 +24,8 @@ import org.mockito.ArgumentMatchers;
 
 public class RemoteReaderServerAdapterTest {
 
+  static final int CLIENT_DISTRIBUTED_API_LEVEL = 2;
+  static final int CLIENT_CORE_API_LEVEL = 2;
   static final String REMOTE_READER_NAME = "REMOTE_READER_NAME";
   static final String LOCAL_READER_NAME = "LOCAL_READER_NAME";
   static final String SESSION_ID = "SESSION_ID";
@@ -107,6 +109,8 @@ public class RemoteReaderServerAdapterTest {
       String initialCardContentJson, String initialCardContentClassName, String inputDataJson) {
     reader =
         new RemoteReaderServerAdapter(
+            CLIENT_DISTRIBUTED_API_LEVEL,
+            CLIENT_CORE_API_LEVEL,
             REMOTE_READER_NAME,
             LOCAL_READER_NAME,
             SESSION_ID,
@@ -115,8 +119,7 @@ public class RemoteReaderServerAdapterTest {
             SERVICE_ID,
             initialCardContentJson,
             initialCardContentClassName,
-            inputDataJson,
-            false);
+            inputDataJson);
   }
 
   private void initSimpleReader() {
