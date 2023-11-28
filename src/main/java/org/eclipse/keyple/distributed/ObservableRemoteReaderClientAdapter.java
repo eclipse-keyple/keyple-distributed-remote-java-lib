@@ -24,6 +24,7 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
   /**
    * Constructor.
    *
+   * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -32,12 +33,13 @@ final class ObservableRemoteReaderClientAdapter extends RemoteReaderClientAdapte
    * @since 2.0.0
    */
   ObservableRemoteReaderClientAdapter(
+      int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
       String clientNodeId,
       AbstractNodeAdapter node) {
-    super(remoteReaderName, localReaderName, sessionId, clientNodeId, node);
+    super(clientCoreApiLevel, remoteReaderName, localReaderName, sessionId, clientNodeId, node);
   }
 
   /**

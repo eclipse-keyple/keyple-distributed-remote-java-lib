@@ -40,7 +40,12 @@ class RemotePoolPluginClientAdapter extends AbstractRemotePluginClientAdapter
   @Override
   public final RemoteReaderSpi createRemoteReader(String remoteReaderName, String localReaderName) {
     return new RemoteReaderClientAdapter(
-        remoteReaderName, localReaderName, getGlobalSessionId(), getNode().getNodeId(), getNode());
+        getCoreApiLevel(),
+        remoteReaderName,
+        localReaderName,
+        getGlobalSessionId(),
+        getNode().getNodeId(),
+        getNode());
   }
 
   /**

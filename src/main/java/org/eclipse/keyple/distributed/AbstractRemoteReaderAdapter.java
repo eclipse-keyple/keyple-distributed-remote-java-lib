@@ -22,6 +22,8 @@ import org.eclipse.keyple.core.distributed.remote.spi.RemoteReaderSpi;
  */
 abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
 
+  private final int clientDistributedApiLevel;
+  private final int clientCoreApiLevel;
   private final String remoteReaderName;
   private final String localReaderName;
   private final String sessionId;
@@ -31,6 +33,8 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   /**
    * Constructor.
    *
+   * @param clientDistributedApiLevel The API level of the client Distributed layer.
+   * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
    * @param sessionId The associated session ID.
@@ -39,16 +43,36 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * @since 2.0.0
    */
   AbstractRemoteReaderAdapter(
+      int clientDistributedApiLevel,
+      int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
       String sessionId,
       String clientNodeId,
       AbstractNodeAdapter node) {
+    this.clientDistributedApiLevel = clientDistributedApiLevel;
+    this.clientCoreApiLevel = clientCoreApiLevel;
     this.remoteReaderName = remoteReaderName;
     this.localReaderName = localReaderName;
     this.sessionId = sessionId;
     this.clientNodeId = clientNodeId;
     this.node = node;
+  }
+
+  /**
+   * @return The API level of the client Distributed layer.
+   * @since 2.3.0
+   */
+  final int getClientDistributedApiLevel() {
+    return clientDistributedApiLevel;
+  }
+
+  /**
+   * @return The API level of the client Core layer.
+   * @since 2.3.0
+   */
+  final int getClientCoreApiLevel() {
+    return clientCoreApiLevel;
   }
 
   /**
@@ -112,6 +136,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
     // Build the message.
     MessageDto message =
         new MessageDto()
+            .setApiLevel(clientDistributedApiLevel)
             .setAction(Action.CMD.name())
             .setRemoteReaderName(remoteReaderName)
             .setLocalReaderName(localReaderName)
@@ -123,7 +148,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
     // Send the message as a request.
     MessageDto response = node.sendRequest(message);
 
-    // Check if the result is an error raised by the distributed layer.
+    // Check if the result is an error raised by the Distributed layer.
     AbstractMessageHandlerAdapter.checkError(response);
 
     // Return the body content.
