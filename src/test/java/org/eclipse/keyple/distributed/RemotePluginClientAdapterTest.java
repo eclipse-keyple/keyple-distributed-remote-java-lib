@@ -170,9 +170,9 @@ public class RemotePluginClientAdapterTest {
   @Test
   public void onMessage_whenActionIsOther_shouldDoNothing() {
     syncPlugin.onMessage(CMD_MSG);
-    verifyZeroInteractions(syncRemotePluginApi);
+    verifyNoInteractions(syncRemotePluginApi);
     asyncPlugin.onMessage(CMD_MSG);
-    verifyZeroInteractions(asyncRemotePluginApi);
+    verifyNoInteractions(asyncRemotePluginApi);
   }
 
   @Test(expected = IllegalStateException.class)
