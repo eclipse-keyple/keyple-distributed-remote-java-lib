@@ -180,11 +180,11 @@ public class ObservableRemotePluginClientAdapterTest {
   @Test
   public void onMessage_whenActionIsPluginEvent_shouldInvokeOnPluginEventOnObservableApi() {
     syncPlugin.onMessage(PLUGIN_EVENT_MSG);
-    verifyZeroInteractions(syncRemotePluginApi);
+    verifyNoInteractions(syncRemotePluginApi);
     verify(syncObservableRemotePluginApi).onPluginEvent(PLUGIN_EVENT_DATA);
     verifyNoMoreInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(PLUGIN_EVENT_MSG);
-    verifyZeroInteractions(asyncRemotePluginApi);
+    verifyNoInteractions(asyncRemotePluginApi);
     verify(asyncObservableRemotePluginApi).onPluginEvent(PLUGIN_EVENT_DATA);
     verifyNoMoreInteractions(asyncObservableRemotePluginApi);
   }
@@ -194,21 +194,21 @@ public class ObservableRemotePluginClientAdapterTest {
     syncPlugin.onMessage(READER_EVENT_MSG);
     verify(syncRemotePluginApi).onReaderEvent(READER_EVENT_DATA);
     verifyNoMoreInteractions(syncRemotePluginApi);
-    verifyZeroInteractions(syncObservableRemotePluginApi);
+    verifyNoInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(READER_EVENT_MSG);
     verify(asyncRemotePluginApi).onReaderEvent(READER_EVENT_DATA);
     verifyNoMoreInteractions(asyncRemotePluginApi);
-    verifyZeroInteractions(asyncObservableRemotePluginApi);
+    verifyNoInteractions(asyncObservableRemotePluginApi);
   }
 
   @Test
   public void onMessage_whenActionIsOther_shouldDoNothing() {
     syncPlugin.onMessage(CMD_MSG);
-    verifyZeroInteractions(syncRemotePluginApi);
-    verifyZeroInteractions(syncObservableRemotePluginApi);
+    verifyNoInteractions(syncRemotePluginApi);
+    verifyNoInteractions(syncObservableRemotePluginApi);
     asyncPlugin.onMessage(CMD_MSG);
-    verifyZeroInteractions(asyncRemotePluginApi);
-    verifyZeroInteractions(asyncObservableRemotePluginApi);
+    verifyNoInteractions(asyncRemotePluginApi);
+    verifyNoInteractions(asyncObservableRemotePluginApi);
   }
 
   @Test(expected = IllegalStateException.class)
@@ -265,12 +265,12 @@ public class ObservableRemotePluginClientAdapterTest {
   @Test
   public void onStartObservation_whenAsync_shouldDoNothing() {
     asyncPlugin.onStartObservation();
-    verifyZeroInteractions(asyncEndpointClientSpi);
+    verifyNoInteractions(asyncEndpointClientSpi);
   }
 
   @Test
   public void onStopObservation_whenAsync_shouldDoNothing() {
     asyncPlugin.onStopObservation();
-    verifyZeroInteractions(asyncEndpointClientSpi);
+    verifyNoInteractions(asyncEndpointClientSpi);
   }
 }
