@@ -299,7 +299,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     String remoteReaderName = UUID.randomUUID().toString();
 
     logger.info(
-        "[{}] create new remote reader (remoteReaderName: {}, serviceId: {}, sessionId: {}, clientNodeId: {})",
+        "Plugin [{}] create new remote reader (remoteReaderName: {}, serviceId: {}, sessionId: {}, clientNodeId: {})",
         getName(),
         remoteReaderName,
         serviceId,
