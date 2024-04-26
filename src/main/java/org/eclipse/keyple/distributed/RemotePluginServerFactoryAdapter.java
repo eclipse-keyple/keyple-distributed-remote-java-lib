@@ -63,7 +63,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
     // Bind the node.
     String nodeType = asyncEndpointServerSpi != null ? "AsyncNodeServer" : "SyncNodeServer";
     logger.info(
-        "Create a new 'RemotePluginServer' with name='{}', nodeType='{}'.",
+        "Create new 'RemotePluginServer' (name: {}, nodeType: {})",
         getRemotePluginName(),
         nodeType);
 

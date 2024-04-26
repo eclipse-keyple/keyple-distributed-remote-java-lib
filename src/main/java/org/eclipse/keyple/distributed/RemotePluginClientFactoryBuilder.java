@@ -121,7 +121,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Long polling strategy : The client requests continuously the server to check for events.<br>
      * This mode is blocking server side and more costly in resource for the server because if there
      * is no event, then the server keeps the hand during X milliseconds in case an event would
-     * occurs before responds to the client.<br>
+     * occur before responds to the client.<br>
      * This mode has the advantage of being more reactive.
      *
      * @param requestTimeoutMillis The request timeout duration (in milliseconds).
@@ -180,7 +180,7 @@ public final class RemotePluginClientFactoryBuilder {
      * Long polling strategy : The client requests continuously the server to check for events.<br>
      * This mode is blocking server side and more costly in resource for the server because if there
      * is no event, then the server keeps the hand during X milliseconds in case an event would
-     * occurs before responds to the client.<br>
+     * occur before responds to the client.<br>
      * This mode has the advantage of being more reactive.
      *
      * @param requestTimeoutMillis The request timeout duration (in milliseconds).

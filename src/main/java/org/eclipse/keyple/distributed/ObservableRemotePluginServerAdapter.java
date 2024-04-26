@@ -55,7 +55,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   ObservableRemotePluginServerAdapter(String remotePluginName, ExecutorService executorService) {
     super(remotePluginName);
     this.executorService = executorService;
-    readers = new ConcurrentHashMap<String, RemoteReaderServerAdapter>();
+    readers = new ConcurrentHashMap<>();
   }
 
   /**
@@ -70,8 +70,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     }
     throw new IllegalStateException(
         String.format(
-            "Remote plugin '%s' is not configured with a synchronous network protocol.",
-            getName()));
+            "Remote plugin [%s] is not configured with a synchronous network protocol", getName()));
   }
 
   /**
@@ -86,7 +85,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     }
     throw new IllegalStateException(
         String.format(
-            "Remote plugin '%s' is not configured with an asynchronous network protocol.",
+            "Remote plugin [%s] is not configured with an asynchronous network protocol",
             getName()));
   }
 
@@ -105,7 +104,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     if (reader == null) {
       throw new IllegalArgumentException(
-          String.format("No reader exists with name '%s'", remoteReaderName));
+          String.format("No reader exists with name [%s]", remoteReaderName));
     }
 
     // Unregister the remote reader.
@@ -299,15 +298,13 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     // Other fields
     String remoteReaderName = UUID.randomUUID().toString();
 
-    if (logger.isDebugEnabled()) {
-      logger.debug(
-          "Remote plugin '{}' creates the remote reader '{}' with serviceId='{}', sessionId='{}', clientNodeId='{}'.",
-          getName(),
-          remoteReaderName,
-          serviceId,
-          message.getSessionId(),
-          message.getClientNodeId());
-    }
+    logger.info(
+        "[{}] create new remote reader (remoteReaderName: {}, serviceId: {}, sessionId: {}, clientNodeId: {})",
+        getName(),
+        remoteReaderName,
+        serviceId,
+        message.getSessionId(),
+        message.getClientNodeId());
 
     RemoteReaderServerAdapter remoteReader =
         new RemoteReaderServerAdapter(
