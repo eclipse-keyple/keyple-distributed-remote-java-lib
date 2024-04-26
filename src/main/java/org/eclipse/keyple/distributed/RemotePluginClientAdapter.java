@@ -78,7 +78,7 @@ class RemotePluginClientAdapter extends AbstractRemotePluginClientAdapter
       String remoteReaderName, String localReaderName) {
     if (!isReaderObservationEnabled) {
       throw new IllegalStateException(
-          "Cannot create the observable remote reader because the reader observation strategy is not configured.");
+          "Cannot create the observable remote reader because the reader observation strategy is not configured");
     }
     return new ObservableRemoteReaderClientAdapter(
         getCoreApiLevel(),

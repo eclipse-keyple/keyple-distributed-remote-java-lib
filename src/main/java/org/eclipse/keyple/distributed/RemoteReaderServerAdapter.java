@@ -95,7 +95,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
         Class<?> classOfInitialCardContent = Class.forName(initialCardContentClassName);
         return JsonUtil.getParser().fromJson(initialCardContentJson, classOfInitialCardContent);
       } catch (ClassNotFoundException e) {
-        logger.error("Class not found for name : {}", initialCardContentClassName, e);
+        logger.error("Class not found: {}", initialCardContentClassName, e);
       }
     }
     return null;

@@ -111,7 +111,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
                   + "_millis"
               : null;
       logger.info(
-          "Create a new 'RemotePluginClient' with name='{}', nodeType='SyncNodeClient', isPluginObservationEnabled={}, syncPluginObservationStrategy={}, isReaderObservationEnabled={}, syncReaderObservationStrategy={}.",
+          "Create new 'RemotePluginClient' (name: {}, nodeType: SyncNodeClient, isPluginObservationEnabled: {}, syncPluginObservationStrategy: {}, isReaderObservationEnabled: {}, syncReaderObservationStrategy: {})",
           getRemotePluginName(),
           isPluginObservationEnabled,
           pluginObservationStrategy,
@@ -123,7 +123,7 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
 
     } else {
       logger.info(
-          "Create a new 'RemotePluginClient' with name='{}', nodeType='AsyncNodeClient', timeoutSeconds={}, isPluginObservationEnabled={}, isReaderObservationEnabled={}.",
+          "Create new 'RemotePluginClient' (name: {}, nodeType: AsyncNodeClient, timeoutSeconds: {}, isPluginObservationEnabled: {}, isReaderObservationEnabled: {})",
           getRemotePluginName(),
           asyncNodeClientTimeoutSeconds,
           isPluginObservationEnabled,
