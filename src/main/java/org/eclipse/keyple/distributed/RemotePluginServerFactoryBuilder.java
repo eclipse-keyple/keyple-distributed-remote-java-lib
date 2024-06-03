@@ -62,20 +62,60 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * Configures the service with a {@link SyncNodeServer} node.
      *
+     * <p>Note that the default awaiting timeout is 20 seconds. The timeout defines the maximum time
+     * the client can wait for the server's response, as well as the maximum time the server can
+     * wait between two client calls.
+     *
      * @return Next configuration step.
+     * @see #withSyncNode(int)
      * @since 2.0.0
      */
     BuilderStep withSyncNode();
 
     /**
+     * Configures the service with a {@link SyncNodeServer} node configured with the specified
+     * awaiting timeout.
+     *
+     * @param timeoutSeconds The timeout (in seconds) defines the maximum time the client can wait
+     *     for the server's response, as well as the maximum time the server can wait between two
+     *     client calls.
+     * @return Next configuration step.
+     * @throws IllegalArgumentException If the timeout has a negative value.
+     * @see #withSyncNode()
+     * @since 2.4.0
+     */
+    BuilderStep withSyncNode(int timeoutSeconds);
+
+    /**
      * Configures the service with a {@link AsyncNodeServer} node.
+     *
+     * <p>Note that the default awaiting timeout is 20 seconds. The timeout defines the maximum time
+     * the client can wait for the server's response, as well as the maximum time the server can
+     * wait between two client calls.
      *
      * @param endpoint The {@link AsyncEndpointServerSpi} network endpoint to use.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null.
+     * @see #withAsyncNode(AsyncEndpointServerSpi, int)
      * @since 2.0.0
      */
     BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint);
+
+    /**
+     * Configures the service with a {@link AsyncNodeServer} node configured with the specified
+     * awaiting timeout.
+     *
+     * @param endpoint The {@link AsyncEndpointServerSpi} network endpoint to use.
+     * @param timeoutSeconds The timeout (in seconds) defines the maximum time the client can wait
+     *     for the server's response, as well as the maximum time the server can wait between two
+     *     client calls.
+     * @return Next configuration step.
+     * @throws IllegalArgumentException If the endpoint is null or if the timeout has a negative
+     *     value.
+     * @see #withAsyncNode(AsyncEndpointServerSpi)
+     * @since 2.4.0
+     */
+    BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint, int timeoutSeconds);
   }
 
   /**
@@ -100,6 +140,7 @@ public final class RemotePluginServerFactoryBuilder {
     private final String remotePluginName;
     private final ExecutorService executorService;
     private AsyncEndpointServerSpi asyncEndpoint;
+    private int timeoutSeconds = 20;
 
     public Builder(String remotePluginName) {
       Assert.getInstance().notEmpty(remotePluginName, "remotePluginName");
@@ -128,6 +169,18 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * {@inheritDoc}
      *
+     * @since 2.4.0
+     */
+    @Override
+    public BuilderStep withSyncNode(int timeoutSeconds) {
+      Assert.getInstance().greaterOrEqual(timeoutSeconds, 0, "timeoutSeconds");
+      this.timeoutSeconds = timeoutSeconds;
+      return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @since 2.0.0
      */
     @Override
@@ -140,11 +193,27 @@ public final class RemotePluginServerFactoryBuilder {
     /**
      * {@inheritDoc}
      *
+     * @since 2.4.0
+     */
+    @Override
+    public BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint, int timeoutSeconds) {
+      Assert.getInstance()
+          .notNull(endpoint, "endpoint")
+          .greaterOrEqual(timeoutSeconds, 0, "timeoutSeconds");
+      this.asyncEndpoint = endpoint;
+      this.timeoutSeconds = timeoutSeconds;
+      return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @since 2.0.0
      */
     @Override
     public RemotePluginServerFactory build() {
-      return new RemotePluginServerFactoryAdapter(remotePluginName, executorService, asyncEndpoint);
+      return new RemotePluginServerFactoryAdapter(
+          remotePluginName, executorService, asyncEndpoint, timeoutSeconds);
     }
   }
 }

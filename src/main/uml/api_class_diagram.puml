@@ -1,6 +1,6 @@
 @startuml
 title
-    Keyple - keyple-distributed-remote-java-lib - 2.2.+ (2023-05-04)
+    Keyple - keyple-distributed-remote-java-lib - 2.4.+ (2024-06-03)
 end title
 
 ' == THEME ==
@@ -98,7 +98,9 @@ package "org.eclipse.keyple.distributed" as root {
         note top: Builds on __Server__ a factory of **ObservablePlugin**
         +interface "NodeStep" as RemotePluginServerFactoryNodeStep {
             + BuilderStep withSyncNode ()
+            + <color:blue>BuilderStep withSyncNode (int timeoutSeconds)
             + BuilderStep withAsyncNode (<back:yellow>AsyncEndpointServerSpi</back> endpoint)
+            + <color:blue>BuilderStep withAsyncNode (<back:yellow>AsyncEndpointServerSpi</back> endpoint, int timeoutSeconds)
         }
         +interface "BuilderStep" as RemotePluginServerFactoryBuilderStep {
             + RemotePluginServerFactory build ()
