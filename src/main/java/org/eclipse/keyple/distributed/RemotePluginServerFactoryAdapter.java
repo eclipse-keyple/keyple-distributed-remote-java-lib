@@ -30,6 +30,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
 
   private final ExecutorService executorService;
   private final AsyncEndpointServerSpi asyncEndpointServerSpi;
+  private final Integer timeoutSeconds;
 
   /**
    * Constructor.
@@ -37,15 +38,18 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
    * @param remotePluginName The name of the remote plugin to build.
    * @param executorService The executor service to be used (optional).
    * @param asyncEndpointServerSpi The async endpoint server to bind.
+   * @param timeoutSeconds The timeout in seconds (optional).
    * @since 2.0.0
    */
   RemotePluginServerFactoryAdapter(
       String remotePluginName,
       ExecutorService executorService,
-      AsyncEndpointServerSpi asyncEndpointServerSpi) {
+      AsyncEndpointServerSpi asyncEndpointServerSpi,
+      Integer timeoutSeconds) {
     super(remotePluginName);
     this.executorService = executorService;
     this.asyncEndpointServerSpi = asyncEndpointServerSpi;
+    this.timeoutSeconds = timeoutSeconds;
   }
 
   /**
@@ -62,15 +66,25 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
 
     // Bind the node.
     String nodeType = asyncEndpointServerSpi != null ? "AsyncNodeServer" : "SyncNodeServer";
+    String timeoutSecondsStr = timeoutSeconds != null ? timeoutSeconds.toString() : "20";
     logger.info(
-        "Create new 'RemotePluginServer' (name: {}, nodeType: {})",
+        "Create new 'RemotePluginServer' (name: {}, nodeType: {}, timeoutSeconds: {})",
         getRemotePluginName(),
-        nodeType);
+        nodeType,
+        timeoutSecondsStr);
 
     if (asyncEndpointServerSpi == null) {
-      remotePlugin.bindSyncNodeServer();
+      if (timeoutSeconds != null) {
+        remotePlugin.bindSyncNodeServer(timeoutSeconds);
+      } else {
+        remotePlugin.bindSyncNodeServer();
+      }
     } else {
-      remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi);
+      if (timeoutSeconds != null) {
+        remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi, timeoutSeconds);
+      } else {
+        remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi);
+      }
     }
 
     return remotePlugin;

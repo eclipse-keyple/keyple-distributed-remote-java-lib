@@ -5,10 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Addition of two methods for configuring the timeout value used by server nodes in "Reader Client Side" usage mode
+  (issue [eclipse-keyple/keyple-distributed-network-java-lib#13]).
+  The timeout defines the maximum time the client can wait for the server's response, 
+  as well as the maximum time the server can wait between two client calls.
+  - `RemotePluginServerFactoryBuilder.NodeStep.withSyncNode(int timeoutSeconds)`
+  - `RemotePluginServerFactoryBuilder.NodeStep.withAsyncNode(AsyncEndpointServerSpi endpoint, int timeoutSeconds)`
 ### Changed
 - Logging improvement.
 ### Upgraded
-- Keyple Distributed Network Lib `2.3.1` -> `2.3.2` (source code not impacted)
+- Keyple Distributed Network Lib `2.3.1` -> `2.4.0`
 
 ## [2.3.1] - 2024-04-12
 ### Changed
@@ -72,5 +79,7 @@ It also brings many major API changes.
 [2.0.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/releases/tag/2.0.0
 
 [#3]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/3
+
+[eclipse-keyple/keyple-distributed-network-java-lib#13]: https://github.com/eclipse-keyple/keyple-distributed-network-java-lib/issues/13
 
 [eclipse-keyple/keyple#6]: https://github.com/eclipse-keyple/keyple/issues/6
