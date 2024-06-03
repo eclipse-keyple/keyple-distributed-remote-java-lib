@@ -96,6 +96,7 @@ public final class RemotePluginServerFactoryBuilder {
      * @param endpoint The {@link AsyncEndpointServerSpi} network endpoint to use.
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null.
+     * @see #withAsyncNode(AsyncEndpointServerSpi, int)
      * @since 2.0.0
      */
     BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint);
@@ -111,6 +112,7 @@ public final class RemotePluginServerFactoryBuilder {
      * @return Next configuration step.
      * @throws IllegalArgumentException If the endpoint is null or if the timeout has a negative
      *     value.
+     * @see #withAsyncNode(AsyncEndpointServerSpi)
      * @since 2.4.0
      */
     BuilderStep withAsyncNode(AsyncEndpointServerSpi endpoint, int timeoutSeconds);
@@ -138,7 +140,7 @@ public final class RemotePluginServerFactoryBuilder {
     private final String remotePluginName;
     private final ExecutorService executorService;
     private AsyncEndpointServerSpi asyncEndpoint;
-    private Integer timeoutSeconds;
+    private int timeoutSeconds = 20;
 
     public Builder(String remotePluginName) {
       Assert.getInstance().notEmpty(remotePluginName, "remotePluginName");

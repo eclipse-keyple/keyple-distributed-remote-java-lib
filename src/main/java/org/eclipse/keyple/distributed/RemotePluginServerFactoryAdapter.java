@@ -30,7 +30,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
 
   private final ExecutorService executorService;
   private final AsyncEndpointServerSpi asyncEndpointServerSpi;
-  private final Integer timeoutSeconds;
+  private final int timeoutSeconds;
 
   /**
    * Constructor.
@@ -45,7 +45,7 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
       String remotePluginName,
       ExecutorService executorService,
       AsyncEndpointServerSpi asyncEndpointServerSpi,
-      Integer timeoutSeconds) {
+      int timeoutSeconds) {
     super(remotePluginName);
     this.executorService = executorService;
     this.asyncEndpointServerSpi = asyncEndpointServerSpi;
@@ -66,25 +66,16 @@ final class RemotePluginServerFactoryAdapter extends AbstractRemotePluginFactory
 
     // Bind the node.
     String nodeType = asyncEndpointServerSpi != null ? "AsyncNodeServer" : "SyncNodeServer";
-    String timeoutSecondsStr = timeoutSeconds != null ? timeoutSeconds.toString() : "20";
     logger.info(
         "Create new 'RemotePluginServer' (name: {}, nodeType: {}, timeoutSeconds: {})",
         getRemotePluginName(),
         nodeType,
-        timeoutSecondsStr);
+        timeoutSeconds);
 
     if (asyncEndpointServerSpi == null) {
-      if (timeoutSeconds != null) {
-        remotePlugin.bindSyncNodeServer(timeoutSeconds);
-      } else {
-        remotePlugin.bindSyncNodeServer();
-      }
+      remotePlugin.bindSyncNodeServer(timeoutSeconds);
     } else {
-      if (timeoutSeconds != null) {
-        remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi, timeoutSeconds);
-      } else {
-        remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi);
-      }
+      remotePlugin.bindAsyncNodeServer(asyncEndpointServerSpi, timeoutSeconds);
     }
 
     return remotePlugin;
