@@ -38,6 +38,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
+   * @param isContactless Is local reader contactless (null if unknown).
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
    * @param node The associated node.
@@ -52,6 +53,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
       int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
+      Boolean isContactless,
       String sessionId,
       String clientNodeId,
       AbstractNodeAdapter node,
@@ -64,6 +66,7 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
         clientCoreApiLevel,
         remoteReaderName,
         localReaderName,
+        isContactless,
         sessionId,
         clientNodeId,
         node);
