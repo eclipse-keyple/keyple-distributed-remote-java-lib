@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Upgraded
 - Keyple Distributed Network Lib `2.4.0` -> `2.5.0`
+- Keyple Distributed Remote API `3.0.1` -> `3.1.0`
 
 ## [2.4.0] - 2024-06-03
 ### Added
@@ -19,7 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Logging improvement.
 ### Upgraded
-- Keyple Distributed Remote API `3.0.1` -> `3.1.0`
 - Keyple Distributed Network Lib `2.3.1` -> `2.4.0`
 
 ## [2.3.1] - 2024-04-12
