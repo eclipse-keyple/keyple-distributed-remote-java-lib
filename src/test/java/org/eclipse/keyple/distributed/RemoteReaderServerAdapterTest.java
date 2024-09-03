@@ -113,6 +113,7 @@ public class RemoteReaderServerAdapterTest {
             CLIENT_CORE_API_LEVEL,
             REMOTE_READER_NAME,
             LOCAL_READER_NAME,
+            true,
             SESSION_ID,
             CLIENT_NODE_ID,
             node,

@@ -26,7 +26,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
   private final int clientCoreApiLevel;
   private final String remoteReaderName;
   private final String localReaderName;
-  private final Boolean isLocalReaderContactless;
+  private final Boolean isContactless;
   private final String sessionId;
   private final String clientNodeId;
   private final AbstractNodeAdapter node;
@@ -38,7 +38,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * @param clientCoreApiLevel The API level of the client Core layer.
    * @param remoteReaderName The name of the remote reader.
    * @param localReaderName The name of the associated local reader.
-   * @param isLocalReaderContactless Is local reader contactless (null if unknown).
+   * @param isContactless Is local reader contactless (null if unknown).
    * @param sessionId The associated session ID.
    * @param clientNodeId The associated client node ID.
    * @param node The associated node.
@@ -49,7 +49,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
       int clientCoreApiLevel,
       String remoteReaderName,
       String localReaderName,
-      Boolean isLocalReaderContactless,
+      Boolean isContactless,
       String sessionId,
       String clientNodeId,
       AbstractNodeAdapter node) {
@@ -57,7 +57,7 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
     this.clientCoreApiLevel = clientCoreApiLevel;
     this.remoteReaderName = remoteReaderName;
     this.localReaderName = localReaderName;
-    this.isLocalReaderContactless = isLocalReaderContactless;
+    this.isContactless = isContactless;
     this.sessionId = sessionId;
     this.clientNodeId = clientNodeId;
     this.node = node;
@@ -135,8 +135,8 @@ abstract class AbstractRemoteReaderAdapter implements RemoteReaderSpi {
    * @since 2.5.0
    */
   @Override
-  public final Boolean isLocalReaderContactless() {
-    return isLocalReaderContactless;
+  public final Boolean isContactless() {
+    return isContactless;
   }
 
   /**

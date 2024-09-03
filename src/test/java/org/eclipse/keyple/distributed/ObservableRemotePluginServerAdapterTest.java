@@ -104,6 +104,11 @@ public class ObservableRemotePluginServerAdapterTest {
       body.addProperty(MessageDto.JsonProperty.SERVICE_ID.getKey(), SERVICE_ID);
     }
 
+    // Is reader contactless?
+    if (!isLegacyMode) {
+      body.addProperty(MessageDto.JsonProperty.IS_READER_CONTACTLESS.getKey(), true);
+    }
+
     // Initial card content
     if (initialCardContent != null) {
       if (isLegacyMode) {
@@ -155,6 +160,7 @@ public class ObservableRemotePluginServerAdapterTest {
             && LOCAL_READER_NAME.equals(argument.getLocalReaderName())
             && node == argument.getNode()
             && SERVICE_ID.equals(argument.getServiceId())
+            && (argument.isContactless() == null || argument.isContactless())
             && (withInitialCardContent
                 ? (argument.getInitialCardContent() instanceof CardContent
                     && ((CardContent) argument.getInitialCardContent()).content.equals(CONTENT))
