@@ -262,6 +262,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     }
 
     String serviceId;
+    Boolean isLocalReaderContactless = null;
     String initialCardContent = null;
     String initialCardContentClassName = null;
     String inputData = null;
@@ -269,6 +270,11 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     if (clientDistributedApiLevel != 0) {
       // Service ID
       serviceId = body.get(JsonProperty.SERVICE_ID.getKey()).getAsString();
+      // Is local reader contactless?
+      if (clientDistributedApiLevel >= 3) {
+        isLocalReaderContactless =
+            body.get(JsonProperty.IS_READER_CONTACTLESS.getKey()).getAsBoolean();
+      }
       // Initial card content
       if (body.has(JsonProperty.INITIAL_CARD_CONTENT.getKey())) {
         initialCardContent =
@@ -312,6 +318,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
             clientCoreApiLevel,
             remoteReaderName,
             message.getLocalReaderName(),
+            isLocalReaderContactless,
             message.getSessionId(),
             message.getClientNodeId(),
             getNode(),

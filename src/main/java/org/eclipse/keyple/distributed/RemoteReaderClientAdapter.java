@@ -41,6 +41,7 @@ class RemoteReaderClientAdapter extends AbstractRemoteReaderAdapter implements R
         clientCoreApiLevel,
         remoteReaderName,
         localReaderName,
+        null,
         sessionId,
         clientNodeId,
         node);
