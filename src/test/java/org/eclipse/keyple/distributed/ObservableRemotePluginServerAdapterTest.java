@@ -12,6 +12,7 @@
 package org.eclipse.keyple.distributed;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.keyple.distributed.MessageDto.API_LEVEL;
 import static org.mockito.Mockito.*;
 
 import com.google.gson.JsonObject;
@@ -43,7 +44,10 @@ public class ObservableRemotePluginServerAdapterTest {
 
   static final String CMD_DATA = "CMD_DATA";
   static final MessageDto CMD_MSG =
-      new MessageDto().setAction(MessageDto.Action.CMD.name()).setBody(CMD_DATA);
+      new MessageDto()
+          .setApiLevel(API_LEVEL)
+          .setAction(MessageDto.Action.CMD.name())
+          .setBody(CMD_DATA);
 
   static final ExecutorService executorService = mock(ExecutorService.class);
 
