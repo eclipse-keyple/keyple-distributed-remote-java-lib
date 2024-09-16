@@ -96,7 +96,7 @@ It also brings many major API changes.
 [2.1.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/releases/tag/2.0.0
 
-[#3]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/15
+[#15]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/15
 [#3]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/3
 
 [eclipse-keyple/keyple-distributed-network-java-lib#13]: https://github.com/eclipse-keyple/keyple-distributed-network-java-lib/issues/13
