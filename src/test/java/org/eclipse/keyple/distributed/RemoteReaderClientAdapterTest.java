@@ -13,6 +13,7 @@ package org.eclipse.keyple.distributed;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.eclipse.keyple.distributed.MessageDto.API_LEVEL;
 import static org.mockito.Mockito.*;
 
 import org.eclipse.keyple.core.util.json.BodyError;
@@ -34,6 +35,7 @@ public class RemoteReaderClientAdapterTest {
   static final String CMD_DATA = "CMD_DATA";
   static final MessageDto CMD_MSG =
       new MessageDto()
+          .setApiLevel(API_LEVEL)
           .setAction(MessageDto.Action.CMD.name())
           .setSessionId(SESSION_ID)
           .setClientNodeId(CLIENT_NODE_ID)
@@ -44,6 +46,7 @@ public class RemoteReaderClientAdapterTest {
   static final String BAD_CMD_DATA = "BAD_CMD_DATA";
   static final MessageDto BAD_CMD_MSG =
       new MessageDto()
+          .setApiLevel(API_LEVEL)
           .setAction(MessageDto.Action.CMD.name())
           .setSessionId(SESSION_ID)
           .setClientNodeId(CLIENT_NODE_ID)
@@ -54,6 +57,7 @@ public class RemoteReaderClientAdapterTest {
   static final String RESP_DATA = "RESP_DATA";
   static final MessageDto RESP_MSG =
       new MessageDto()
+          .setApiLevel(API_LEVEL)
           .setAction(MessageDto.Action.RESP.name())
           .setSessionId(SESSION_ID)
           .setClientNodeId(CLIENT_NODE_ID)
@@ -65,6 +69,7 @@ public class RemoteReaderClientAdapterTest {
       JsonUtil.toJson(new BodyError(new IllegalArgumentException(ERROR_DETAIL_MESSAGE)));
   static final MessageDto ERROR_MSG =
       new MessageDto()
+          .setApiLevel(API_LEVEL)
           .setAction(MessageDto.Action.ERROR.name())
           .setSessionId(SESSION_ID)
           .setClientNodeId(CLIENT_NODE_ID)

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Fixed the backward compatibility for clients that do not transmit the `apiLevel` field (issue [#15]).
 
 ## [2.5.0] - 2024-09-06
 ### Added
@@ -94,6 +96,7 @@ It also brings many major API changes.
 [2.1.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.0.0...2.1.0
 [2.0.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/releases/tag/2.0.0
 
+[#15]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/15
 [#3]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/issues/3
 
 [eclipse-keyple/keyple-distributed-network-java-lib#13]: https://github.com/eclipse-keyple/keyple-distributed-network-java-lib/issues/13

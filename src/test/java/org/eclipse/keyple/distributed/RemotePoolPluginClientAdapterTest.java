@@ -12,6 +12,7 @@
 package org.eclipse.keyple.distributed;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.keyple.distributed.MessageDto.API_LEVEL;
 import static org.mockito.Mockito.*;
 
 import java.util.Collections;
@@ -31,7 +32,10 @@ public class RemotePoolPluginClientAdapterTest {
 
   static final String READER_EVENT_DATA = "READER_EVENT_DATA";
   static final MessageDto READER_EVENT_MSG =
-      new MessageDto().setAction(MessageDto.Action.READER_EVENT.name()).setBody(READER_EVENT_DATA);
+      new MessageDto()
+          .setApiLevel(API_LEVEL)
+          .setAction(MessageDto.Action.READER_EVENT.name())
+          .setBody(READER_EVENT_DATA);
 
   static final String CMD_DATA = "CMD_DATA";
 
@@ -41,6 +45,7 @@ public class RemotePoolPluginClientAdapterTest {
   static final String RESP_DATA = "RESP_DATA";
   static final MessageDto RESP_MSG =
       new MessageDto()
+          .setApiLevel(API_LEVEL)
           .setAction(MessageDto.Action.RESP.name())
           .setSessionId(SESSION_ID)
           .setClientNodeId(CLIENT_NODE_ID)

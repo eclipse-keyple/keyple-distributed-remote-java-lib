@@ -11,6 +11,8 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
+import static org.eclipse.keyple.distributed.MessageDto.API_LEVEL;
+
 import org.eclipse.keyple.core.distributed.remote.spi.AbstractRemotePluginSpi;
 
 /**
@@ -68,6 +70,7 @@ abstract class AbstractRemotePluginAdapter extends AbstractMessageHandlerAdapter
     // Build the message.
     MessageDto message =
         new MessageDto()
+            .setApiLevel(API_LEVEL)
             .setAction(MessageDto.Action.CMD.name())
             .setSessionId(sessionId)
             .setBody(jsonData);
