@@ -69,8 +69,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
       return (SyncNodeServer) getNode();
     }
     throw new IllegalStateException(
-        String.format(
-            "Remote plugin [%s] is not configured with a synchronous network protocol", getName()));
+        "Remote plugin '" + getName() + "' is not configured with a synchronous network protocol");
   }
 
   /**
@@ -84,9 +83,9 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
       return (AsyncNodeServer) getNode();
     }
     throw new IllegalStateException(
-        String.format(
-            "Remote plugin [%s] is not configured with an asynchronous network protocol",
-            getName()));
+        "Remote plugin '"
+            + getName()
+            + "' is not configured with an asynchronous network protocol");
   }
 
   /**
@@ -103,8 +102,7 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     RemoteReaderServerAdapter reader = readers.remove(remoteReaderName);
 
     if (reader == null) {
-      throw new IllegalArgumentException(
-          String.format("No reader exists with name [%s]", remoteReaderName));
+      throw new IllegalArgumentException("No reader exists with name '" + remoteReaderName + "'");
     }
 
     // Unregister the remote reader.
@@ -235,7 +233,8 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
   void onMessage(MessageDto message) {
 
     if (!Action.EXECUTE_REMOTE_SERVICE.name().equals(message.getAction())) {
-      throw new IllegalStateException(String.format("Message not supported : %s", message));
+      throw new IllegalStateException(
+          "Message action '" + message.getAction() + "' not supported: " + message);
     }
 
     // Creates a remote reader based on the incoming message.
@@ -303,14 +302,6 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
     // Other fields
     String remoteReaderName = UUID.randomUUID().toString();
 
-    logger.info(
-        "Plugin [{}] create new remote reader (remoteReaderName: {}, serviceId: {}, sessionId: {}, clientNodeId: {})",
-        getName(),
-        remoteReaderName,
-        serviceId,
-        message.getSessionId(),
-        message.getClientNodeId());
-
     RemoteReaderServerAdapter remoteReader =
         new RemoteReaderServerAdapter(
             clientDistributedApiLevel,
@@ -331,5 +322,13 @@ final class ObservableRemotePluginServerAdapter extends AbstractRemotePluginAdap
 
     // Register the remote reader and notify observers.
     observableRemotePluginApi.addRemoteReader(remoteReader, clientCoreApiLevel);
+
+    logger.info(
+        "[plugin={}] New 'RemoteReaderServer' created [remoteReaderName={}, serviceId={}, sessionId={}, clientNodeId={}]",
+        getName(),
+        remoteReaderName,
+        serviceId,
+        message.getSessionId(),
+        message.getClientNodeId());
   }
 }

@@ -52,9 +52,9 @@ abstract class AbstractRemotePluginClientAdapter extends AbstractRemotePluginAda
       return (AsyncNodeClient) getNode();
     }
     throw new IllegalStateException(
-        String.format(
-            "Remote plugin [%s] is not configured with an asynchronous network protocol",
-            getName()));
+        "Remote plugin '"
+            + getName()
+            + "' is not configured with an asynchronous network protocol");
   }
 
   /**

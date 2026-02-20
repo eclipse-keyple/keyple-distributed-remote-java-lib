@@ -96,6 +96,10 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
 
     // Bind the node.
     if (syncEndpointClientSpi != null) {
+
+      remotePlugin.bindSyncNodeClient(
+          syncEndpointClientSpi, syncPluginObservationStrategy, syncReaderObservationStrategy);
+
       String pluginObservationStrategy =
           syncPluginObservationStrategy != null
               ? syncPluginObservationStrategy.getType().name()
@@ -111,25 +115,23 @@ final class RemotePluginClientFactoryAdapter extends AbstractRemotePluginFactory
                   + "_millis"
               : null;
       logger.info(
-          "Create new 'RemotePluginClient' (name: {}, nodeType: SyncNodeClient, isPluginObservationEnabled: {}, syncPluginObservationStrategy: {}, isReaderObservationEnabled: {}, syncReaderObservationStrategy: {})",
+          "New 'RemotePluginClient' created [name={}, nodeType=SyncNodeClient, isPluginObservationEnabled={}, syncPluginObservationStrategy={}, isReaderObservationEnabled={}, syncReaderObservationStrategy={}]",
           getRemotePluginName(),
           isPluginObservationEnabled,
           pluginObservationStrategy,
           isReaderObservationEnabled,
           readerObservationStrategy);
 
-      remotePlugin.bindSyncNodeClient(
-          syncEndpointClientSpi, syncPluginObservationStrategy, syncReaderObservationStrategy);
-
     } else {
+
+      remotePlugin.bindAsyncNodeClient(asyncEndpointClientSpi, asyncNodeClientTimeoutSeconds);
+
       logger.info(
-          "Create new 'RemotePluginClient' (name: {}, nodeType: AsyncNodeClient, timeoutSeconds: {}, isPluginObservationEnabled: {}, isReaderObservationEnabled: {})",
+          "New 'RemotePluginClient' created [name={}, nodeType=AsyncNodeClient, timeoutSeconds={}, isPluginObservationEnabled={}, isReaderObservationEnabled={}]",
           getRemotePluginName(),
           asyncNodeClientTimeoutSeconds,
           isPluginObservationEnabled,
           isReaderObservationEnabled);
-
-      remotePlugin.bindAsyncNodeClient(asyncEndpointClientSpi, asyncNodeClientTimeoutSeconds);
     }
 
     return remotePlugin;
