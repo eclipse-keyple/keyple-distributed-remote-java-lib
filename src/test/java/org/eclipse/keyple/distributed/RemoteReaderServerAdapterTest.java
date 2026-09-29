@@ -16,8 +16,10 @@ import static org.eclipse.keyple.distributed.MessageDto.API_LEVEL;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import java.util.Properties;
 import org.eclipse.keyple.core.util.json.BodyError;
 import org.eclipse.keyple.core.util.json.JsonUtil;
+import org.eclipse.keypop.reader.selection.spi.SmartCard;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -45,12 +47,17 @@ public class RemoteReaderServerAdapterTest {
 
   static final String INPUT_DATA_JSON = JsonUtil.toJson(INPUT_DATA);
 
-  static class CardContent {
+  static class CardContent implements SmartCard {
 
     private final String content;
 
     public CardContent(String content) {
       this.content = content;
+    }
+
+    @Override
+    public String getPowerOnData() {
+      return null;
     }
   }
 
@@ -224,6 +231,158 @@ public class RemoteReaderServerAdapterTest {
     assertThat(reader.getInitialCardContent())
         .isInstanceOf(CardContent.class)
         .isEqualToComparingFieldByField(CARD_CONTENT);
+  }
+
+  @Test
+  public void getInitialCardContent_whenClassIsUnknown_shouldReturnNull() {
+    initReader(INITIAL_CARD_CONTENT_JSON, "com.unknown.DoesNotExist", null);
+    assertThat(reader.getInitialCardContent()).isNull();
+  }
+
+  @Test
+  public void getInitialCardContent_whenClassIsNotASmartCard_shouldReturnNull() {
+    initReader("{\"payload\":\"value\"}", UnexpectedType.class.getName(), null);
+    assertThat(reader.getInitialCardContent()).isNull();
+    assertThat(unexpectedTypeLoaded).isFalse();
+    assertThat(unexpectedTypeCreated).isFalse();
+  }
+
+  @Test
+  public void
+      getInitialCardContent_whenClassInheritsFromASmartCardSubInterface_shouldReturnInstance() {
+    initReader("{}", SubSmartCardContent.class.getName(), null);
+    assertThat(reader.getInitialCardContent()).isInstanceOf(SubSmartCardContent.class);
+  }
+
+  /**
+   * Initial card content sent by the clients of the Server JSON API 2.1 (see its specification).
+   */
+  static final String JSON_API_INITIAL_CARD_CONTENT =
+      "{\"processedCardSelectionScenarioJsonString\":\"[{\\\"hasMatched\\\":true}]\"}";
+
+  @Test
+  public void getInitialCardContent_whenCardContentIsAJsonApiProperties_shouldReturnProperties() {
+    initReader(JSON_API_INITIAL_CARD_CONTENT, "java.util.Properties", null);
+    assertThat(reader.getInitialCardContent())
+        .isInstanceOf(Properties.class)
+        .extracting(
+            content -> ((Properties) content).get("processedCardSelectionScenarioJsonString"))
+        .isEqualTo("[{\"hasMatched\":true}]");
+  }
+
+  @Test
+  public void
+      getInitialCardContentTyped_whenCardContentIsAJsonApiProperties_shouldReturnProperties() {
+    initReader(JSON_API_INITIAL_CARD_CONTENT, "java.util.Properties", null);
+    Properties properties = reader.getInitialCardContent(Properties.class);
+    assertThat(properties.get("processedCardSelectionScenarioJsonString"))
+        .isEqualTo("[{\"hasMatched\":true}]");
+  }
+
+  @Test
+  public void
+      getInitialCardContentTyped_whenCardContentIsAPropertiesButSmartCardIsExpected_shouldThrowISE() {
+    initReader(JSON_API_INITIAL_CARD_CONTENT, "java.util.Properties", null);
+    assertThatThrownBy(() -> reader.getInitialCardContent(SmartCard.class))
+        .isInstanceOf(IllegalStateException.class);
+  }
+
+  @Test
+  public void getInitialCardContent_whenClassIsASubclassOfProperties_shouldReturnNull() {
+    initReader("{}", CustomProperties.class.getName(), null);
+    assertThat(reader.getInitialCardContent()).isNull();
+  }
+
+  @Test
+  public void getInitialCardContentTyped_whenClassIsASubclassOfProperties_shouldThrowISE() {
+    initReader("{}", CustomProperties.class.getName(), null);
+    assertThatThrownBy(() -> reader.getInitialCardContent(Properties.class))
+        .isInstanceOf(IllegalStateException.class);
+  }
+
+  public static class CustomProperties extends Properties {}
+
+  @Test(expected = IllegalArgumentException.class)
+  public void getInitialCardContentTyped_whenClassIsNull_shouldThrowIAE() {
+    initReader(INITIAL_CARD_CONTENT_JSON, INITIAL_CARD_CONTENT_CLASS_NAME, null);
+    reader.getInitialCardContent(null);
+  }
+
+  @Test
+  public void getInitialCardContentTyped_whenCardContentIsNotProvided_shouldReturnNull() {
+    initReader(null, null, null);
+    assertThat(reader.getInitialCardContent(SmartCard.class)).isNull();
+  }
+
+  @Test
+  public void getInitialCardContentTyped_whenCardContentIsOfExpectedType_shouldReturnInstance() {
+    initReader(INITIAL_CARD_CONTENT_JSON, INITIAL_CARD_CONTENT_CLASS_NAME, null);
+    SmartCard smartCard = reader.getInitialCardContent(SmartCard.class);
+    assertThat(smartCard)
+        .isInstanceOf(CardContent.class)
+        .isEqualToComparingFieldByField(CARD_CONTENT);
+  }
+
+  @Test
+  public void
+      getInitialCardContentTyped_whenCardContentImplementsExpectedInterface_shouldReturnInstance() {
+    initReader("{}", SubSmartCardContent.class.getName(), null);
+    SubSmartCard smartCard = reader.getInitialCardContent(SubSmartCard.class);
+    assertThat(smartCard).isInstanceOf(SubSmartCardContent.class);
+  }
+
+  @Test
+  public void getInitialCardContentTyped_whenCardContentIsNotOfExpectedType_shouldThrowISE() {
+    initReader(INITIAL_CARD_CONTENT_JSON, INITIAL_CARD_CONTENT_CLASS_NAME, null);
+    assertThatThrownBy(() -> reader.getInitialCardContent(SubSmartCard.class))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("is not supported or is not of type");
+  }
+
+  @Test
+  public void getInitialCardContentTyped_whenClassIsUnknown_shouldThrowISE() {
+    initReader(INITIAL_CARD_CONTENT_JSON, "com.unknown.DoesNotExist", null);
+    assertThatThrownBy(() -> reader.getInitialCardContent(SmartCard.class))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("is not found");
+  }
+
+  @Test
+  public void
+      getInitialCardContentTyped_whenClassIsNotASmartCardEvenIfExpectedTypeIsObject_shouldThrowISE() {
+    initReader("{\"payload\":\"value\"}", UnexpectedType.class.getName(), null);
+    assertThatThrownBy(() -> reader.getInitialCardContent(Object.class))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("is not supported or is not of type");
+    assertThat(unexpectedTypeLoaded).isFalse();
+    assertThat(unexpectedTypeCreated).isFalse();
+  }
+
+  // Flags are held outside the test type so that reading them does not load this type
+  private static boolean unexpectedTypeLoaded;
+  private static boolean unexpectedTypeCreated;
+
+  public static class UnexpectedType {
+    static {
+      unexpectedTypeLoaded = true;
+    }
+
+    public String payload;
+
+    public UnexpectedType() {
+      unexpectedTypeCreated = true;
+    }
+  }
+
+  interface SubSmartCard extends SmartCard {}
+
+  abstract static class AbstractSubSmartCard implements SubSmartCard {}
+
+  static class SubSmartCardContent extends AbstractSubSmartCard {
+    @Override
+    public String getPowerOnData() {
+      return null;
+    }
   }
 
   @Test(expected = IllegalArgumentException.class)

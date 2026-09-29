@@ -44,7 +44,7 @@ import org.eclipse.keyple.core.common.KeyplePluginExtension;
  *   <li>Execute the ticketing service identified by the service id.
  *   <li>During the ticketing service execution, you can retrieve from the reader the initial smart
  *       card content transmitted by the client using the method {@link
- *       RemoteReaderServer#getInitialCardContent()} and/or the additional input data using the
+ *       RemoteReaderServer#getInitialCardContent(Class)} and/or the additional input data using the
  *       method {@link RemoteReaderServer#getInputData(Class)}.
  *   <li>To end the remote ticketing service, invoke on the plugin the method {@link
  *       RemotePluginServer#endRemoteService(String, Object)} by providing the reader name and
