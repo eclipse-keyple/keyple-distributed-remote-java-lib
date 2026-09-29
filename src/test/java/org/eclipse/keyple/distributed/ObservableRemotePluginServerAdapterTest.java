@@ -22,6 +22,7 @@ import org.eclipse.keyple.core.distributed.remote.RemotePluginApi;
 import org.eclipse.keyple.core.distributed.remote.spi.RemotePluginFactorySpi;
 import org.eclipse.keyple.core.util.json.JsonUtil;
 import org.eclipse.keyple.distributed.spi.AsyncEndpointServerSpi;
+import org.eclipse.keypop.reader.selection.spi.SmartCard;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -65,12 +66,17 @@ public class ObservableRemotePluginServerAdapterTest {
   static final CardContent CARD_CONTENT = new CardContent(CONTENT);
   static final InputData INPUT_DATA = new InputData(DATA_IN);
 
-  static class CardContent {
+  static class CardContent implements SmartCard {
 
     private final String content;
 
     public CardContent(String content) {
       this.content = content;
+    }
+
+    @Override
+    public String getPowerOnData() {
+      return null;
     }
   }
 

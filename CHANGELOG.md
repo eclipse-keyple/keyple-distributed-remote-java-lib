@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-09-29
+### Added
+- Method `RemoteReaderServer.getInitialCardContent(Class<T>)`, which provides the initial card content as an instance
+  of the expected type: the smart card type (e.g. `CalypsoCard`), or `java.util.Properties` for the clients using the
+  Server JSON API.
+### Changed
+- The initial card content provided by `RemoteReaderServer` must now be a `SmartCard` or a `java.util.Properties`
+  object (Server JSON API). Other types are no longer provided.
+### Deprecated
+- Method `RemoteReaderServer.getInitialCardContent()`, replaced by `getInitialCardContent(Class<T>)`.
+### Upgraded
+- `keyple-distributed-network-java-lib` from `2.5.2` to `2.6.0`
+- `keyple-util-java-lib` from `2.4.1` to `2.5.0`
+
 ## [2.5.2] - 2026-02-20
 ### Changed
 - Normalized logging and error messages using Keyple coding standards.
@@ -101,7 +115,8 @@ It follows the extraction of Keyple 1.0 components contained in the `eclipse-key
 repositories.
 It also brings many major API changes.
 
-[unreleased]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.5.2...HEAD
+[unreleased]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.6.0...HEAD
+[2.6.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.5.2...2.6.0
 [2.5.2]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.5.1...2.5.2
 [2.5.1]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/eclipse-keyple/keyple-distributed-remote-java-lib/compare/2.4.0...2.5.0

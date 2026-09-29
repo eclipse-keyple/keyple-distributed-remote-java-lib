@@ -11,6 +11,9 @@
  ************************************************************************************** */
 package org.eclipse.keyple.distributed;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 import org.eclipse.keyple.core.util.Assert;
 import org.eclipse.keyple.core.util.json.JsonUtil;
 import org.slf4j.Logger;
@@ -25,6 +28,12 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
     implements RemoteReaderServer {
 
   private static final Logger logger = LoggerFactory.getLogger(RemoteReaderServerAdapter.class);
+
+  /** Names of the smart card interfaces that the initial card content class must implement. */
+  private static final List<String> SMART_CARD_INTERFACE_NAMES =
+      Arrays.asList(
+          "org.eclipse.keypop.reader.selection.spi.SmartCard",
+          "org.calypsonet.terminal.reader.selection.spi.SmartCard");
 
   private final String serviceId;
   private final String initialCardContentJson;
@@ -90,12 +99,20 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
    * {@inheritDoc}
    *
    * @since 2.0.0
+   * @deprecated Use {@link #getInitialCardContent(Class)} instead.
    */
+  @Deprecated
   @Override
   public Object getInitialCardContent() {
     if (initialCardContentJson != null) {
       try {
-        Class<?> classOfInitialCardContent = Class.forName(initialCardContentClassName);
+        Class<?> classOfInitialCardContent = loadInitialCardContentClass();
+        if (!isSupportedInitialCardContentType(classOfInitialCardContent)) {
+          logger.error(
+              "Class is not supported [initialCardContentClassName={}]",
+              initialCardContentClassName);
+          return null;
+        }
         return JsonUtil.getParser().fromJson(initialCardContentJson, classOfInitialCardContent);
       } catch (ClassNotFoundException e) {
         logger.error(
@@ -103,6 +120,81 @@ final class RemoteReaderServerAdapter extends AbstractRemoteReaderAdapter
       }
     }
     return null;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since 2.6.0
+   */
+  @Override
+  public <T> T getInitialCardContent(Class<T> initialCardContentClass) {
+    Assert.getInstance().notNull(initialCardContentClass, "initialCardContentClass");
+    if (initialCardContentJson == null) {
+      return null;
+    }
+    Class<?> classOfInitialCardContent;
+    try {
+      classOfInitialCardContent = loadInitialCardContentClass();
+    } catch (ClassNotFoundException e) {
+      throw new IllegalStateException(
+          "Initial card content class '" + initialCardContentClassName + "' is not found", e);
+    }
+    if (!initialCardContentClass.isAssignableFrom(classOfInitialCardContent)
+        || !isSupportedInitialCardContentType(classOfInitialCardContent)) {
+      throw new IllegalStateException(
+          "Initial card content class '"
+              + initialCardContentClassName
+              + "' is not supported or is not of type '"
+              + initialCardContentClass.getName()
+              + "'");
+    }
+    return initialCardContentClass.cast(
+        JsonUtil.getParser().fromJson(initialCardContentJson, classOfInitialCardContent));
+  }
+
+  /**
+   * Loads the class of the initial card content, without initializing it.
+   *
+   * @return A not null reference.
+   * @throws ClassNotFoundException If the class is not found.
+   */
+  private Class<?> loadInitialCardContentClass() throws ClassNotFoundException {
+    return Class.forName(
+        initialCardContentClassName, false, RemoteReaderServerAdapter.class.getClassLoader());
+  }
+
+  /**
+   * Checks if the provided type is supported as initial card content: a smart card, or a {@link
+   * Properties} object (used by the clients of the Server JSON API to transmit a processed card
+   * selection scenario).
+   *
+   * @param type The type to check.
+   * @return True if the type is supported.
+   */
+  private static boolean isSupportedInitialCardContentType(Class<?> type) {
+    return type == Properties.class || isSmartCard(type);
+  }
+
+  /**
+   * Checks if the provided type is or inherits from one of the smart card interfaces.
+   *
+   * @param type The type to check.
+   * @return True if the type is a smart card.
+   */
+  private static boolean isSmartCard(Class<?> type) {
+    if (type == null) {
+      return false;
+    }
+    if (SMART_CARD_INTERFACE_NAMES.contains(type.getName()) || isSmartCard(type.getSuperclass())) {
+      return true;
+    }
+    for (Class<?> interfaceType : type.getInterfaces()) {
+      if (isSmartCard(interfaceType)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

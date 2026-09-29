@@ -40,8 +40,30 @@ public interface RemoteReaderServer extends KeypleReaderExtension {
    *
    * @return Null if there is no initial card content.
    * @since 2.0.0
+   * @deprecated Use {@link #getInitialCardContent(Class)} instead, which lets the server
+   *     application define the expected type of the initial card content.
    */
+  @Deprecated
   Object getInitialCardContent();
+
+  /**
+   * Gets the initial content of the smart card if it is set, as an instance of the expected type.
+   *
+   * <p>The expected type is usually the interface of the smart card provided by the card extension
+   * (e.g. <b><code>org.eclipse.keypop.calypso.card.card.CalypsoCard</code></b>), or {@link
+   * java.util.Properties} for the clients using the Server JSON API (the initial card content then
+   * contains the processed card selection scenario). The initial card content must be a smart card
+   * or a {@link java.util.Properties} object of the expected type.
+   *
+   * @param initialCardContentClass The expected type of the initial card content.
+   * @param <T> The expected type of the initial card content.
+   * @return Null if there is no initial card content.
+   * @throws IllegalArgumentException If the provided class is null.
+   * @throws IllegalStateException If the initial card content is not a smart card or a {@link
+   *     java.util.Properties} object of the expected type.
+   * @since 2.6.0
+   */
+  <T> T getInitialCardContent(Class<T> initialCardContentClass);
 
   /**
    * Gets the input data if it is set.
